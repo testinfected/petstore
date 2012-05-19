@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>petstore</artifactId>
-		<groupId>com.pyxis</groupId>
+		<groupId>com.pyxis.petstore</groupId>
 		<version>0.9-SNAPSHOT</version>
 	</parent>
 	<artifactId>petstore-domain</artifactId>

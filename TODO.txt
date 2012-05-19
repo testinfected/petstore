@@ -1,6 +1,3 @@
-o Fork windowlicker to github
-o Mavenize windowlicker and upload to maven central
-o Move properties in pom.xml to properties file and use maven-properties plugin
 o Fix layout of header
 o Use wildcard matchers in windowlicker to get rid of being() sugar ?
 o Upgrade to log4j.xml

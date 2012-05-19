@@ -2,7 +2,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.pyxis</groupId>
+        <groupId>com.pyxis.petstore</groupId>
         <artifactId>petstore</artifactId>
         <version>0.9-SNAPSHOT</version>
     </parent>
@@ -12,12 +12,12 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.pyxis</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>petstore-domain</artifactId>
 			<version>${project.version}</version>
 		</dependency>	
         <dependency>
-            <groupId>com.pyxis</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>petstore-infrastructure</artifactId>
             <version>${project.version}</version>
         </dependency>
