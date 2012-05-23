@@ -281,7 +281,7 @@
                         <configuration>
                             <wait>false</wait>
                             <container>
-                                <log>${test.log.dir}/logs/cargo.log</log>
+                                <log>${test.log.dir}/cargo.log</log>
                                 <containerId>tomcat5x</containerId>
                                 <timeout>60000</timeout>
                                 <artifactInstaller>
