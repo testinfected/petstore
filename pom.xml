@@ -323,9 +323,7 @@
                         <configuration>
                             <files>
                                 <file>${main.basedir}/etc/default.properties</file>
-                                <file>${main.basedir}/etc/environments/${environment}.properties</file>
-                                <file>${main.basedir}/etc/targets/${target}.properties</file>
-                                <file>${main.basedir}/etc/grids/${grid}.properties</file>
+                                <file>${main.basedir}/etc/${environment}.properties</file>
                             </files>
                         </configuration>
                     </execution>
@@ -349,9 +347,7 @@
     <properties>
         <main.basedir>${project.basedir}</main.basedir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <environment>test</environment>
-        <target>local</target>
-        <grid>local</grid>
+        <environment>development</environment>
     </properties>
 
     <profiles>
@@ -365,6 +361,18 @@
             </activation>
             <properties>
                 <environment>development</environment>
+            </properties>
+        </profile>
+        <profile>
+            <id>env-test</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>test</value>
+                </property>
+            </activation>
+            <properties>
+                <environment>test</environment>
             </properties>
         </profile>
         <profile>
@@ -389,31 +397,6 @@
             </activation>
             <properties>
                 <environment>production</environment>
-            </properties>
-        </profile>
-        <profile>
-            <id>target-cloudbees</id>
-            <activation>
-                <property>
-                    <name>target</name>
-                    <value>cloudbees</value>
-                </property>
-            </activation>
-            <properties>
-                <target>cloudbees</target>
-                <grid>sauce</grid>
-            </properties>
-        </profile>
-        <profile>
-            <id>grid-sauce</id>
-            <activation>
-                <property>
-                    <name>grid</name>
-                    <value>sauce</value>
-                </property>
-            </activation>
-            <properties>
-                <grid>sauce</grid>
             </properties>
         </profile>
     </profiles>
