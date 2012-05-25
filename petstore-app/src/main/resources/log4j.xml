@@ -18,8 +18,7 @@
 
     <root>
         <priority value="info"/>
-        <!--<appender-ref ref="console"/>-->
-        <appender-ref ref="file"/>
+        <appender-ref ref="${log.to}"/>
     </root>
 </log4j:configuration>
 

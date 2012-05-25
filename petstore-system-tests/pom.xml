@@ -266,8 +266,9 @@
                             <hibernate.dialect>${test.hibernate.dialect}</hibernate.dialect>
                             <timeServer.host>${test.timeServer.host}</timeServer.host>
                             <timeServer.port>${test.timeServer.port}</timeServer.port>
+                            <log.to>file</log.to>
                             <test.log.dir>${test.log.dir}</test.log.dir>
-                            <test.log.file>petstore.log</test.log.file>
+                            <test.log.file>webapp.log</test.log.file>
                             <log4j.configuration>file:${project.basedir}/src/test/resources/log4j.xml</log4j.configuration>
                         </systemProperties>
                     </container>
