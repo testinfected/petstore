@@ -199,7 +199,7 @@
                     <systemPropertyVariables>
                         <server.lifecycle>external</server.lifecycle>
                         <!-- Until we have a proper way to start and stop selenium server from within the build, use firefox driver -->
-                        <browser.lifecycle>lasting</browser.lifecycle>
+                        <browser.lifecycle>${browser.lifecycle}</browser.lifecycle>
                         <browser.remote.url>${selenium.server.url}</browser.remote.url>
                         <browser.remote.capability.browserName>${selenium.server.browser}</browser.remote.capability.browserName>
                         <browser.remote.capability.version>${selenium.server.browser.version}</browser.remote.capability.version>
