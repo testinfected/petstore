@@ -1,3 +1,4 @@
+o Replace Velocity with StringTemplate or Mustache
 o Fix layout of header
 o Use wildcard matchers in windowlicker to get rid of being() sugar ?
 o Upgrade to log4j.xml
