@@ -9,7 +9,7 @@ import org.mortbay.jetty.webapp.WebAppContext;
 import org.mortbay.thread.QueuedThreadPool;
 import org.testinfected.hamcrest.ExceptionImposter;
 
-public class SingleWebApp implements ServerDriver {
+public class WebServer implements ServerDriver {
 
     private static final int SHUTDOWN_TIMEOUT = 1000;
     private static final int MAX_THREADS = 5;
@@ -21,11 +21,11 @@ public class SingleWebApp implements ServerDriver {
     private String contextPath;
     private String webAppPath;
 
-    public SingleWebApp(ServerProperties properties) {
+    public WebServer(ServerProperties properties) {
         this(properties.host(), properties.port(), properties.contextPath(), properties.webAppPath());
     }
 
-    public SingleWebApp(String host, int port, String contextPath, String webAppPath) {
+    public WebServer(String host, int port, String contextPath, String webAppPath) {
         this.host = host;
         this.port = port;
         this.contextPath = contextPath;
