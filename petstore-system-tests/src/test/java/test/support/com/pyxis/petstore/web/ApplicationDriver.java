@@ -7,9 +7,9 @@ import test.support.com.pyxis.petstore.web.page.*;
 
 import java.math.BigDecimal;
 
-public class PetStoreDriver {
+public class ApplicationDriver {
 
-    private final AsyncWebDriver browser;
+    private final WebDriver webDriver;
     private final HomePage homePage;
     private final ProductsPage productsPage;
     private final ItemsPage itemsPage;
@@ -18,8 +18,9 @@ public class PetStoreDriver {
     private final ReceiptPage receiptPage;
     private final Menu menu;
 
-    public PetStoreDriver(WebDriver webDriver) {
-        browser = new AsyncWebDriver(new UnsynchronizedProber(), webDriver);
+    public ApplicationDriver(WebDriver webDriver) {
+        this.webDriver = webDriver;
+        AsyncWebDriver browser = new AsyncWebDriver(new UnsynchronizedProber(), webDriver);
         menu = new Menu(browser);
         homePage = new HomePage(browser);
         productsPage = new ProductsPage(browser);
@@ -30,11 +31,12 @@ public class PetStoreDriver {
     }
 
     public void open(Routing routes) {
-        homePage.navigateThrough(routes);
+        webDriver.navigate().to(routes.urlFor(HomePage.class));
     }
 
     public void close() {
         menu.logout();
+        webDriver.close();
     }
 
     public void searchFor(String keyword) {
@@ -136,9 +138,6 @@ public class PetStoreDriver {
 
     public void returnHome() {
         menu.home();
-        homePage.displays();
-        browser.navigate().back();
-        menu.logo();
         homePage.displays();
     }
 

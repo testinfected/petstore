@@ -1,13 +1,20 @@
 package test.system.com.pyxis.petstore;
 
 import com.pyxis.petstore.domain.product.Product;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import test.support.com.pyxis.petstore.web.ApplicationDriver;
+import test.support.com.pyxis.petstore.web.SystemTestContext;
 
 import static test.support.com.pyxis.petstore.builders.ItemBuilder.an;
 import static test.support.com.pyxis.petstore.builders.ProductBuilder.aProduct;
+import static test.support.com.pyxis.petstore.web.SystemTestContext.systemTesting;
 
-public class BrowseCatalogFeature extends FeatureTemplate {
+public class BrowseCatalogFeature {
+
+    SystemTestContext context = systemTesting();
+    ApplicationDriver petstore;
 
     Product iguana;
 
@@ -30,5 +37,15 @@ public class BrowseCatalogFeature extends FeatureTemplate {
         petstore.consultInventoryOf("Iguana");
         petstore.displaysItem("12345678", "Green Adult", "18.50");
         petstore.continueShopping();
+    }
+
+    @Before public void
+    startApplication() {
+        petstore = context.startApplication();
+    }
+
+    @After public void
+    stopApplication() {
+        context.stopApplication(petstore);
     }
 }

@@ -1,11 +1,18 @@
 package test.system.com.pyxis.petstore;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-import test.support.com.pyxis.petstore.builders.ProductBuilder;
+import test.support.com.pyxis.petstore.web.ApplicationDriver;
+import test.support.com.pyxis.petstore.web.SystemTestContext;
 
 import static test.support.com.pyxis.petstore.builders.ProductBuilder.aProduct;
+import static test.support.com.pyxis.petstore.web.SystemTestContext.systemTesting;
 
-public class SearchFeature extends FeatureTemplate {
+public class SearchFeature {
+
+    SystemTestContext context = systemTesting();
+    ApplicationDriver petstore;
 
     @Test public void
     searchesForAProductNotAvailableInStore() {
@@ -27,4 +34,13 @@ public class SearchFeature extends FeatureTemplate {
         petstore.displaysProduct("CHE-5678", "Chesapeake");
     }
 
+    @Before public void
+    startApplication() {
+        petstore = context.startApplication();
+    }
+
+    @After public void
+    stopApplication() {
+        context.stopApplication(petstore);
+    }
 }

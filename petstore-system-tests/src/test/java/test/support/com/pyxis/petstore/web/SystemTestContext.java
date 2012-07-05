@@ -7,10 +7,9 @@ import test.support.com.pyxis.petstore.db.Database;
 import test.support.com.pyxis.petstore.db.DatabaseCleaner;
 import test.support.com.pyxis.petstore.db.DatabaseMigrator;
 import test.support.com.pyxis.petstore.db.PersistenceContext;
-import test.support.com.pyxis.petstore.web.browser.BrowserLifeCycle;
-import test.support.com.pyxis.petstore.web.browser.BrowserLifeCycles;
+import test.support.com.pyxis.petstore.web.browser.BrowserControl;
+import test.support.com.pyxis.petstore.web.browser.BrowserControls;
 import test.support.com.pyxis.petstore.web.browser.BrowserProperties;
-import test.support.com.pyxis.petstore.web.server.ServerDriver;
 import test.support.com.pyxis.petstore.web.server.ServerLifeCycle;
 import test.support.com.pyxis.petstore.web.server.ServerLifeCycles;
 import test.support.com.pyxis.petstore.web.server.ServerProperties;
@@ -23,7 +22,7 @@ public final class SystemTestContext {
 
     private PersistenceContext spring;
     private ServerLifeCycle serverLifeCycle;
-    private BrowserLifeCycle browserLifeCycle;
+    private BrowserControl browserControl;
     private Routing routing;
 
     public static SystemTestContext systemTesting() {
@@ -64,13 +63,18 @@ public final class SystemTestContext {
     }
 
     private void selectBrowser(BrowserProperties properties) {
-        browserLifeCycle = new BrowserLifeCycles(properties).select(properties.lifeCycle());
+        browserControl = new BrowserControls(properties).select(properties.lifeCycle());
     }
 
-    public void cleanUp() {
-        Database database = new Database(spring.openSession());
-        new DatabaseCleaner(database).clean();
-        database.close();
+    public ApplicationDriver startApplication() {
+        startServer();
+        return launchApplication();
+    }
+
+    public void stopApplication(ApplicationDriver application) {
+        application.close();
+        stopServer();
+        cleanUp();
     }
 
     public void given(Builder<?>... builders) {
@@ -85,23 +89,27 @@ public final class SystemTestContext {
         database.close();
     }
 
-    public ServerDriver startServer() {
-        return serverLifeCycle.start();
+    private ApplicationDriver launchApplication() {
+        ApplicationDriver application = new ApplicationDriver(launchBrowser());
+        application.open(routing);
+        return application;
     }
 
-    public void stopServer(ServerDriver server) {
-        serverLifeCycle.stop(server);
+    private void startServer() {
+        serverLifeCycle.start();
     }
 
-    public WebDriver startBrowser() {
-        return browserLifeCycle.start();
+    private void stopServer() {
+        serverLifeCycle.stop();
     }
 
-    public void stopBrowser(WebDriver browser) {
-        browserLifeCycle.stop(browser);
+    private WebDriver launchBrowser() {
+        return browserControl.launch();
     }
 
-    public Routing routes() {
-        return routing;
+    private void cleanUp() {
+        Database database = new Database(spring.openSession());
+        new DatabaseCleaner(database).clean();
+        database.close();
     }
 }

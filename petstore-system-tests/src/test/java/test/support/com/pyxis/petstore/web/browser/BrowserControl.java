@@ -2,9 +2,7 @@ package test.support.com.pyxis.petstore.web.browser;
 
 import org.openqa.selenium.WebDriver;
 
-public interface BrowserLifeCycle {
+public interface BrowserControl {
     
-    WebDriver start();
-
-    void stop(WebDriver browser);
+    WebDriver launch();
 }

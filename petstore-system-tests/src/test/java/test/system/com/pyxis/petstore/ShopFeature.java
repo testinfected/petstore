@@ -1,14 +1,20 @@
 package test.system.com.pyxis.petstore;
 
 import com.pyxis.petstore.domain.product.Product;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import test.support.com.pyxis.petstore.web.ApplicationDriver;
+import test.support.com.pyxis.petstore.web.SystemTestContext;
 
 import static test.support.com.pyxis.petstore.builders.ItemBuilder.an;
-import static test.support.com.pyxis.petstore.builders.ItemBuilder.anItem;
 import static test.support.com.pyxis.petstore.builders.ProductBuilder.aProduct;
+import static test.support.com.pyxis.petstore.web.SystemTestContext.systemTesting;
 
-public class ShopFeature extends FeatureTemplate {
+public class ShopFeature {
+
+    SystemTestContext context = systemTesting();
+    ApplicationDriver petstore;
 
     @Before public void
     iguanaAreForSale() {
@@ -44,5 +50,15 @@ public class ShopFeature extends FeatureTemplate {
         petstore.buy("Iguana", "12345678");
         petstore.showsItemQuantity("12345678", 2);
         petstore.showsCartTotalQuantity(2);
+    }
+
+    @Before public void
+    startApplication() {
+        petstore = context.startApplication();
+    }
+
+    @After public void
+    stopApplication() {
+        context.stopApplication(petstore);
     }
 }

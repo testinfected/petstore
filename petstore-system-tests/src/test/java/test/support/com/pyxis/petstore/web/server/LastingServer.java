@@ -8,12 +8,11 @@ public class LastingServer implements ServerLifeCycle {
         this.shared = new WebServer(properties);
     }
 
-    public ServerDriver start() {
+    public void start() {
         shared.start();
-        return shared;
     }
 
-    public void stop(ServerDriver server)  {
+    public void stop()  {
         shared.stopOnShutdown();
     }
 }

@@ -9,7 +9,7 @@ import org.mortbay.jetty.webapp.WebAppContext;
 import org.mortbay.thread.QueuedThreadPool;
 import org.testinfected.hamcrest.ExceptionImposter;
 
-public class WebServer implements ServerDriver {
+public class WebServer {
 
     private static final int SHUTDOWN_TIMEOUT = 1000;
     private static final int MAX_THREADS = 5;

@@ -1,14 +1,11 @@
 package test.support.com.pyxis.petstore.web.browser;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class PassingBrowser extends Firefox implements BrowserLifeCycle {
+public class PassingBrowser implements BrowserControl {
 
-    public WebDriver start() {
-        return newBrowser();
-    }
-
-    public void stop(WebDriver browser) {
-        browser.quit();
+    public WebDriver launch() {
+        return new FirefoxDriver();
     }
 }

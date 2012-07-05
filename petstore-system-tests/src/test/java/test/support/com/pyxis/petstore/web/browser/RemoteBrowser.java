@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-public class RemoteBrowser implements BrowserLifeCycle {
+public class RemoteBrowser implements BrowserControl {
 
     private final BrowserProperties properties;
 
@@ -12,13 +12,8 @@ public class RemoteBrowser implements BrowserLifeCycle {
         this.properties = properties;
     }
 
-    public WebDriver start() {
+    public WebDriver launch() {
         DesiredCapabilities capabilities = new DesiredCapabilities(properties.capabilities());
         return new RemoteWebDriver(properties.remoteUrl(), capabilities);
     }
-
-    public void stop(WebDriver browser) {
-        browser.quit();
-    }
-
 }

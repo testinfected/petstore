@@ -1,38 +1,37 @@
 package test.support.com.pyxis.petstore.web.browser;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class LastingBrowser extends Firefox implements BrowserLifeCycle {
+public class LastingBrowser implements BrowserControl {
 
     private WebDriver browser;
-    private ShutdownHook shutdownHook;
 
     public LastingBrowser() {
     }
 
-    public WebDriver start() {
+    public WebDriver launch() {
         if (!started()) {
-            browser = newBrowser();
+            browser = launchBrowser();
         }
         return browser;
-    }
-
-    public void stop(WebDriver browser) {
-        if (!hooked()) {
-            Runtime.getRuntime().addShutdownHook(shutdownHook = new ShutdownHook());
-        }
     }
 
     private boolean started() {
         return browser != null;
     }
 
-    private boolean hooked() {
-        return shutdownHook != null;
+    protected WebDriver launchBrowser() {
+        FirefoxDriver browser = new FirefoxDriver() {
+            public void close() {
+            }
+        };
+        Runtime.getRuntime().addShutdownHook(new ShutdownHook(browser));
+        return browser;
     }
 
     private class ShutdownHook extends Thread {
-        private ShutdownHook() {
+        private ShutdownHook(final WebDriver browser) {
             super(new Runnable() {
                 public void run() {
                     browser.quit();

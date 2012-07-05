@@ -10,8 +10,4 @@ public abstract class Page {
     protected Page(AsyncWebDriver browser) {
         this.browser = browser;
     }
-
-    public void navigateThrough(Routing routes) {
-        browser.navigate().to(routes.urlFor(getClass()));
-    }
 }

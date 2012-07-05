@@ -2,7 +2,7 @@ package test.support.com.pyxis.petstore.web.server;
 
 public interface ServerLifeCycle {
 
-    ServerDriver start();
+    void start();
 
-    void stop(ServerDriver server);
+    void stop();
 }

@@ -1,13 +1,20 @@
 package test.system.com.pyxis.petstore;
 
 import com.pyxis.petstore.domain.product.Product;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import test.support.com.pyxis.petstore.web.ApplicationDriver;
+import test.support.com.pyxis.petstore.web.SystemTestContext;
 
 import static test.support.com.pyxis.petstore.builders.ItemBuilder.a;
 import static test.support.com.pyxis.petstore.builders.ProductBuilder.aProduct;
+import static test.support.com.pyxis.petstore.web.SystemTestContext.systemTesting;
 
-public class PurchaseFeature extends FeatureTemplate {
+public class PurchaseFeature {
+
+    SystemTestContext context = systemTesting();
+    ApplicationDriver petstore;
 
     @Before public void
     labradorsAreForSale() {
@@ -35,5 +42,15 @@ public class PurchaseFeature extends FeatureTemplate {
 
         petstore.continueShopping();
         petstore.showsCartIsEmpty();
+    }
+
+    @Before public void
+    startApplication() {
+        petstore = context.startApplication();
+    }
+
+    @After public void
+    stopApplication() {
+        context.stopApplication(petstore);
     }
 }
