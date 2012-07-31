@@ -6,6 +6,7 @@ import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import test.support.com.pyxis.petstore.builders.Builder;
 import test.support.com.pyxis.petstore.builders.ProductBuilder;
@@ -35,9 +36,13 @@ public class PersistentProductCatalogTest {
     Database database = new Database(context.openConnection());
     ProductCatalog productCatalog = context.getComponent(ProductCatalog.class);
 
-    @After
-    public void cleanDatabase() {
+    @Before public void
+    cleanDatabase() {
         new DatabaseCleaner(database).clean();
+    }
+
+    @After public void
+    closeDatabase() {
         database.close();
     }
 
@@ -60,7 +65,7 @@ public class PersistentProductCatalogTest {
 
         Collection<Product> matches = productCatalog.findByKeyword("bull");
         assertThat("matching products", matches, hasSize(equalTo(2)));
-        assertThat("matches", matches, containsProducts(productNamed("English Bulldog"), productNamed("French Bulldog")));
+        assertThat("matches", matches, containsInAnyOrder(productNamed("English Bulldog"), productNamed("French Bulldog")));
     }
 
     @SuppressWarnings("unchecked")
@@ -70,7 +75,7 @@ public class PersistentProductCatalogTest {
 
         List<Product> matches = productCatalog.findByKeyword("friend");
         assertThat("matching products", matches, hasSize(equalTo(2)));
-        assertThat("matches", matches, containsProducts(productNamed("Labrador"), productNamed("Golden")));
+        assertThat("matches", matches, containsInAnyOrder(productNamed("Labrador"), productNamed("Golden")));
     }
 
     @Test(expected = ConstraintViolationException.class)
@@ -109,10 +114,6 @@ public class PersistentProductCatalogTest {
 
     private Builder<?> and(Builder<?> builder) {
         return builder;
-    }
-
-    private Matcher<Iterable<? extends Product>> containsProducts(Matcher<Product>... productMatchers) {
-        return containsInAnyOrder(productMatchers);
     }
 
     private Matcher<Iterable<Product>> hasSize(Matcher<? super Integer> sizeMatcher) {

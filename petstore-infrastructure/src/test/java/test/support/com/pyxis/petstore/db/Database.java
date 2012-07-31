@@ -1,6 +1,5 @@
 package test.support.com.pyxis.petstore.db;
 
-import com.pyxis.petstore.domain.product.Product;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.testinfected.hamcrest.jpa.Reflection;

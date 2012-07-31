@@ -11,6 +11,7 @@ import org.hamcrest.Matcher;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import test.support.com.pyxis.petstore.builders.OrderBuilder;
 import test.support.com.pyxis.petstore.db.Database;
@@ -40,9 +41,13 @@ public class PersistentOrderBookTest {
     Database database = new Database(context.openConnection());
     OrderBook orderBook = context.getComponent(OrderBook.class);
 
-    @After
-    public void cleanDatabase() {
+    @Before public void
+    cleanDatabase() {
         new DatabaseCleaner(database).clean();
+    }
+
+    @After public void
+    closeDatabase() {
         database.close();
     }
 

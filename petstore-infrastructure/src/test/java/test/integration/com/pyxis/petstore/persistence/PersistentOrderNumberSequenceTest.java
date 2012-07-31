@@ -7,6 +7,7 @@ import org.hamcrest.Matcher;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import test.support.com.pyxis.petstore.db.Database;
 import test.support.com.pyxis.petstore.db.DatabaseCleaner;
@@ -25,9 +26,13 @@ public class PersistentOrderNumberSequenceTest {
     Database database = new Database(context.openConnection());
     OrderNumberSequence orderNumberSequence = context.getComponent(OrderNumberSequence.class);
 
-    @After
-    public void cleanDatabase() {
+    @Before public void
+    cleanDatabase() {
         new DatabaseCleaner(database).clean();
+    }
+
+    @After public void
+    closeDatabase() {
         database.close();
     }
 

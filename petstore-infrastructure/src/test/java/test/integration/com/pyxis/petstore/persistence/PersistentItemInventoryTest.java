@@ -8,6 +8,7 @@ import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import test.support.com.pyxis.petstore.builders.ItemBuilder;
 import test.support.com.pyxis.petstore.db.Database;
@@ -39,12 +40,15 @@ public class PersistentItemInventoryTest {
 
     Product product = aProduct().build();
 
-    @After
-    public void cleanDatabase() {
+    @Before public void
+    cleanDatabase() {
         new DatabaseCleaner(database).clean();
+    }
+    
+    @After public void
+    closeDatabase() {
         database.close();
     }
-
 
     @Test public void
     findsItemsByNumber() {

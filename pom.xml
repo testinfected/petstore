@@ -316,6 +316,7 @@
                 <executions>
                     <execution>
                         <id>read-properties</id>
+                        <!-- todo Can we bind to process-resources phase instead? -->
                         <phase>initialize</phase>
                         <goals>
                             <goal>read-project-properties</goal>
