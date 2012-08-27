@@ -15,8 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 import test.support.com.pyxis.petstore.builders.OrderBuilder;
 import test.support.com.pyxis.petstore.db.Database;
-import test.support.com.pyxis.petstore.db.DatabaseCleaner;
-import test.support.com.pyxis.petstore.db.IntegrationTestContext;
+import test.support.com.pyxis.petstore.db.TestEnvironment;
 import test.support.com.pyxis.petstore.db.UnitOfWork;
 
 import java.util.ArrayList;
@@ -32,18 +31,17 @@ import static test.support.com.pyxis.petstore.builders.CreditCardBuilder.validVi
 import static test.support.com.pyxis.petstore.builders.ItemBuilder.anItem;
 import static test.support.com.pyxis.petstore.builders.OrderBuilder.anOrder;
 import static test.support.com.pyxis.petstore.db.Database.idOf;
-import static test.support.com.pyxis.petstore.db.IntegrationTestContext.integrationTesting;
 
 public class PersistentOrderBookTest {
 
-    IntegrationTestContext context = integrationTesting();
+    TestEnvironment environment = TestEnvironment.load();
 
-    Database database = new Database(context.openConnection());
-    OrderBook orderBook = context.getComponent(OrderBook.class);
+    Database database = Database.in(environment);
+    OrderBook orderBook = environment.get(OrderBook.class);
 
     @Before public void
     cleanDatabase() {
-        new DatabaseCleaner(database).clean();
+        database.clean();
     }
 
     @After public void

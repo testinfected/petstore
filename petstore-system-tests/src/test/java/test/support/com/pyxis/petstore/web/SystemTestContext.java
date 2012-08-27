@@ -1,12 +1,13 @@
 package test.support.com.pyxis.petstore.web;
 
+import org.hibernate.SessionFactory;
 import org.openqa.selenium.WebDriver;
 import test.support.com.pyxis.petstore.Properties;
 import test.support.com.pyxis.petstore.builders.Builder;
 import test.support.com.pyxis.petstore.db.Database;
 import test.support.com.pyxis.petstore.db.DatabaseCleaner;
 import test.support.com.pyxis.petstore.db.DatabaseMigrator;
-import test.support.com.pyxis.petstore.db.PersistenceContext;
+import test.support.com.pyxis.petstore.db.Spring;
 import test.support.com.pyxis.petstore.web.browser.BrowserControl;
 import test.support.com.pyxis.petstore.web.browser.BrowserControls;
 import test.support.com.pyxis.petstore.web.browser.BrowserProperties;
@@ -20,7 +21,7 @@ public final class SystemTestContext {
 
     private static SystemTestContext context;
 
-    private PersistenceContext spring;
+    private Spring spring;
     private ServerLifeCycle serverLifeCycle;
     private BrowserControl browserControl;
     private Routing routing;
@@ -51,7 +52,7 @@ public final class SystemTestContext {
     }
 
     private void loadSpringContext(Properties properties) {
-        this.spring = new PersistenceContext(properties.toJavaProperties());
+        this.spring = new Spring(properties.toJavaProperties());
     }
 
     private void migrateDatabase(Properties properties) {
@@ -84,7 +85,7 @@ public final class SystemTestContext {
     }
 
     public void given(Object... fixtures) {
-        Database database = new Database(spring.openSession());
+        Database database = Database.connect(spring.getBean(SessionFactory.class));
         database.persist(fixtures);
         database.close();
     }
@@ -108,7 +109,7 @@ public final class SystemTestContext {
     }
 
     private void cleanUp() {
-        Database database = new Database(spring.openSession());
+        Database database = Database.connect(spring.getBean(SessionFactory.class));
         new DatabaseCleaner(database).clean();
         database.close();
     }

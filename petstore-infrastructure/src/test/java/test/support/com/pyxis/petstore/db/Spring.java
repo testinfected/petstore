@@ -1,7 +1,5 @@
 package test.support.com.pyxis.petstore.db;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.PropertyValue;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
@@ -14,26 +12,22 @@ import java.util.Properties;
 
 import static java.util.Arrays.asList;
 
-public class PersistenceContext {
+public class Spring {
 
     private static final String PERSISTENCE_CONFIGURATION = "classpath:persistence.xml";
 
-    private final ApplicationContext spring;
+    private final ApplicationContext context;
 
-    public PersistenceContext(Properties properties) {
-        spring = loadFrom(properties);
+    public Spring(Properties properties) {
+        context = loadFrom(properties);
     }
 
     public <T> T getBean(Class<T> type) {
-        return spring.getBean(type);
+        return context.getBean(type);
     }
 
     public DataSource getDataSource() {
         return getBean(DataSource.class);
-    }
-
-    public Session openSession() {
-        return getBean(SessionFactory.class).openSession();
     }
 
     private ApplicationContext loadFrom(Properties properties) {

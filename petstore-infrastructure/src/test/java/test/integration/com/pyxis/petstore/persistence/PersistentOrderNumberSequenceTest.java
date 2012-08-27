@@ -10,25 +10,23 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import test.support.com.pyxis.petstore.db.Database;
-import test.support.com.pyxis.petstore.db.DatabaseCleaner;
-import test.support.com.pyxis.petstore.db.IntegrationTestContext;
+import test.support.com.pyxis.petstore.db.TestEnvironment;
 import test.support.com.pyxis.petstore.db.UnitOfWork;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static test.support.com.pyxis.petstore.db.IntegrationTestContext.integrationTesting;
 
 public class PersistentOrderNumberSequenceTest {
 
-    IntegrationTestContext context = integrationTesting();
+    TestEnvironment environment = TestEnvironment.load();
 
-    Database database = new Database(context.openConnection());
-    OrderNumberSequence orderNumberSequence = context.getComponent(OrderNumberSequence.class);
+    Database database = Database.in(environment);
+    OrderNumberSequence orderNumberSequence = environment.get(OrderNumberSequence.class);
 
     @Before public void
     cleanDatabase() {
-        new DatabaseCleaner(database).clean();
+        database.clean();
     }
 
     @After public void

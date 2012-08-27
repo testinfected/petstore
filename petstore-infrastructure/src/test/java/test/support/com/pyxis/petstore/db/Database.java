@@ -1,6 +1,7 @@
 package test.support.com.pyxis.petstore.db;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.testinfected.hamcrest.jpa.Reflection;
 import test.support.com.pyxis.petstore.builders.Builder;
@@ -13,10 +14,22 @@ import static org.testinfected.hamcrest.jpa.SamePersistentFieldsAs.samePersisten
 
 public class Database {
 
+    public static Database in(TestEnvironment environment) {
+        return connect(environment.get(SessionFactory.class));
+    }
+
+    public static Database connect(SessionFactory sessionFactory) {
+        return new Database(sessionFactory.openSession());
+    }
+
     private Session session;
 
     public Database(Session session) {
         this.session = session;
+    }
+
+    public void clean() {
+        new DatabaseCleaner(this).clean();
     }
 
     public void close() {
