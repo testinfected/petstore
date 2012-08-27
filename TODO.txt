@@ -1,4 +1,3 @@
-o Use junit-dep instead of junit
 o put properties in maven profiles to be IDE friendly again
 o Refactor attachment stuff, it sucks and move file store to webapp
 o Rename infra to persistence

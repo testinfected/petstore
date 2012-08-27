@@ -33,6 +33,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit-dep</artifactId>
+            <version>4.8.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-core</artifactId>
             <version>1.3.RC2</version>
@@ -42,20 +48,6 @@
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-library</artifactId>
             <version>1.3.RC2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.testinfected.hamcrest-matchers</groupId>
-            <artifactId>all-matchers</artifactId>
-            <version>1.5</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- Declare junit after hamcrest because junit includes org.hamcrest.Matcher
-           version 1.1 -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.8.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -80,13 +72,13 @@
             <artifactId>jmock-junit4</artifactId>
             <version>2.5.1</version>
             <scope>test</scope>
-            <exclusions>
-                <!-- exclude junit dep which depends on hamcrest 1.1 -->
-                <exclusion>
-                    <groupId>junit</groupId>
-                    <artifactId>junit-dep</artifactId>
-                </exclusion>
-            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testinfected.hamcrest-matchers</groupId>
+            <artifactId>all-matchers</artifactId>
+            <version>1.5</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
