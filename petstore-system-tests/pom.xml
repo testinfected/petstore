@@ -274,6 +274,7 @@
                     <configuration>
                         <properties>
                             <cargo.servlet.port>${server.port}</cargo.servlet.port>
+                            <cargo.tomcat.ajp.port>8012</cargo.tomcat.ajp.port>
                         </properties>
                     </configuration>
                 </configuration>
