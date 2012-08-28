@@ -13,6 +13,6 @@ public class MigrationProperties {
     }
 
     public String migrationsPath() {
-        return properties.getValue(MIGRATIONS_PATH);
+        return properties.getString(MIGRATIONS_PATH);
     }
 }

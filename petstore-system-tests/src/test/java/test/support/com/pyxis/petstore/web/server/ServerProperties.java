@@ -22,27 +22,27 @@ public class ServerProperties {
     }
 
     public String scheme() {
-        return properties.getValue(SCHEME);
+        return properties.getString(SCHEME);
     }
 
     public String host() {
-        return properties.getValue(HOST);
+        return properties.getString(HOST);
     }
 
     public int port() {
-        return properties.getValueAsInt(PORT);
+        return properties.getInt(PORT);
     }
 
     public String contextPath() {
-        return properties.getValue(CONTEXT_PATH);
+        return properties.getString(CONTEXT_PATH);
     }
 
     public String webAppPath() {
-        return properties.getValue(WEBAPP_PATH);
+        return properties.getString(WEBAPP_PATH);
     }
 
     public String lifeCycle() {
-        return properties.getValue(LIFECYCLE);
+        return properties.getString(LIFECYCLE);
     }
 
     public URL urlFor(String path) {

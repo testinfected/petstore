@@ -2,24 +2,57 @@ package test.support.com.pyxis.petstore.web;
 
 import com.objogate.wl.UnsynchronizedProber;
 import com.objogate.wl.web.AsyncWebDriver;
+import com.pyxis.petstore.domain.product.Product;
+import org.hibernate.SessionFactory;
 import org.openqa.selenium.WebDriver;
+import test.support.com.pyxis.petstore.builders.ItemBuilder;
+import test.support.com.pyxis.petstore.builders.ProductBuilder;
+import test.support.com.pyxis.petstore.web.browser.BrowserControl;
 import test.support.com.pyxis.petstore.web.page.*;
+import test.support.com.pyxis.petstore.web.server.ServerLifeCycle;
 
 import java.math.BigDecimal;
 
 public class ApplicationDriver {
 
-    private final WebDriver webDriver;
-    private final HomePage homePage;
-    private final ProductsPage productsPage;
-    private final ItemsPage itemsPage;
-    private final CartPage cartPage;
-    private final PurchasePage purchasePage;
-    private final ReceiptPage receiptPage;
-    private final Menu menu;
+    private final ServerLifeCycle server;
+    private final BrowserControl browserControl;
+    private final DatabaseDriver database;
+    private final Routing routes;
 
-    public ApplicationDriver(WebDriver webDriver) {
-        this.webDriver = webDriver;
+    private WebDriver webDriver;
+    private HomePage homePage;
+    private ProductsPage productsPage;
+    private ItemsPage itemsPage;
+    private CartPage cartPage;
+    private PurchasePage purchasePage;
+    private ReceiptPage receiptPage;
+    private Menu menu;
+
+    public ApplicationDriver(TestEnvironment environment) {
+        this.server = environment.serverLifeCycle;
+        this.database = new DatabaseDriver(environment.getComponent(SessionFactory.class));
+        this.browserControl = environment.browserControl;
+        this.routes = environment.routes;
+    }
+
+    public void start() {
+        startDatabase();
+        startWebServer();
+        startBrowser();
+        openHomePage();
+    }
+
+    private void startDatabase() {
+        database.start();
+    }
+
+    private void startWebServer() {
+        server.start();
+    }
+
+    private void startBrowser() {
+        this.webDriver = browserControl.launch();
         AsyncWebDriver browser = new AsyncWebDriver(new UnsynchronizedProber(), webDriver);
         menu = new Menu(browser);
         homePage = new HomePage(browser);
@@ -30,13 +63,32 @@ public class ApplicationDriver {
         receiptPage = new ReceiptPage(browser);
     }
 
-    public void open(Routing routes) {
+    public void openHomePage() {
         webDriver.navigate().to(routes.urlFor(HomePage.class));
     }
 
-    public void close() {
-        menu.logout();
+    public void stop() {
+        logout();
+        stopWebServer();
+        stopBrowser();
+        stopDatabase();
+    }
+
+    private void stopDatabase() {
+        database.stop();
+    }
+
+    private void stopBrowser() {
         webDriver.close();
+    }
+
+    private void stopWebServer() {
+        server.stop();
+    }
+
+    public void logout() {
+        menu.logout();
+        homePage.displays();
     }
 
     public void searchFor(String keyword) {
@@ -149,5 +201,17 @@ public class ApplicationDriver {
     public void reviewCart() {
         menu.cart();
         cartPage.displays();
+    }
+
+    public void addProducts(ProductBuilder... products) {
+        database.add(products);
+    }
+
+    public void addProducts(Product... products) {
+        database.add(products);
+    }
+
+    public void addItems(ItemBuilder... items) {
+        database.add(items);
     }
 }

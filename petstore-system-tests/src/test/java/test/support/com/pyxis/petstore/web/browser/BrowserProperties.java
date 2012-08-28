@@ -43,7 +43,7 @@ public final class BrowserProperties {
     }
 
     private String valueOf(String propertyName) {
-        return properties.getValue(propertyName);
+        return properties.getString(propertyName);
     }
 
     private String capabilityName(String property) {

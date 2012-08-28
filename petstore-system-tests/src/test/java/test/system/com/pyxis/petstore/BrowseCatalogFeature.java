@@ -5,47 +5,44 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import test.support.com.pyxis.petstore.web.ApplicationDriver;
-import test.support.com.pyxis.petstore.web.SystemTestContext;
+import test.support.com.pyxis.petstore.web.TestEnvironment;
 
 import static test.support.com.pyxis.petstore.builders.ItemBuilder.an;
 import static test.support.com.pyxis.petstore.builders.ProductBuilder.aProduct;
-import static test.support.com.pyxis.petstore.web.SystemTestContext.systemTesting;
 
 public class BrowseCatalogFeature {
 
-    SystemTestContext context = systemTesting();
-    ApplicationDriver petstore;
-
+    ApplicationDriver application = new ApplicationDriver(TestEnvironment.load());
     Product iguana;
-
-    @Before public void
-    iguanaAreForSale() {
-        iguana = aProduct().named("Iguana").build();
-        context.given(iguana);
-    }
 
     @Test public void
     consultsAProductCurrentlyOutOfStock() {
-        petstore.consultInventoryOf("Iguana");
-        petstore.showsNoItemAvailable();
+        application.consultInventoryOf("Iguana");
+        application.showsNoItemAvailable();
     }
 
     @Test public void
     consultsAProductAvailableItems() {
-        context.given(an(iguana).withNumber("12345678").describedAs("Green Adult").priced("18.50"));
+        application.addItems(an(iguana).withNumber("12345678").describedAs("Green Adult").priced("18.50"));
 
-        petstore.consultInventoryOf("Iguana");
-        petstore.displaysItem("12345678", "Green Adult", "18.50");
-        petstore.continueShopping();
+        application.consultInventoryOf("Iguana");
+        application.displaysItem("12345678", "Green Adult", "18.50");
+        application.continueShopping();
     }
 
     @Before public void
     startApplication() {
-        petstore = context.startApplication();
+        application.start();
+        iguanaAreForSale();
+    }
+
+    private void iguanaAreForSale() {
+        iguana = aProduct().named("Iguana").build();
+        application.addProducts(iguana);
     }
 
     @After public void
     stopApplication() {
-        context.stopApplication(petstore);
+        application.stop();
     }
 }

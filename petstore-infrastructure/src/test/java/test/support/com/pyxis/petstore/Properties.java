@@ -37,12 +37,12 @@ public class Properties {
         this.properties = properties;
     }
 
-    public String getValue(String key) {
+    public String getString(String key) {
         return properties.getProperty(key);
     }
 
-    public int getValueAsInt(final String name) {
-        return parseInt(getValue(name));
+    public int getInt(final String name) {
+        return parseInt(getString(name));
     }
 
     public Set<String> names() {
@@ -57,13 +57,13 @@ public class Properties {
 
     public void merge(Properties defaults) {
         for (String name : defaults.names()) {
-            if (!properties.containsKey(name)) properties.setProperty(name, defaults.getValue(name));
+            if (!properties.containsKey(name)) properties.setProperty(name, defaults.getString(name));
         }
     }
 
     public void override(Properties other) {
         for (String name : other.names()) {
-            properties.setProperty(name, other.getValue(name));
+            properties.setProperty(name, other.getString(name));
         }
     }
 
