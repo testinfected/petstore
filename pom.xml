@@ -300,60 +300,52 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>properties-maven-plugin</artifactId>
-                <version>1.0-alpha-2</version>
-                <executions>
-                    <execution>
-                        <id>read-properties</id>
-                        <!-- todo Can we bind to process-resources phase instead? -->
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>read-project-properties</goal>
-                        </goals>
-                        <configuration>
-                            <files>
-                                <file>${main.basedir}/etc/default.properties</file>
-                                <file>${main.basedir}/etc/${environment}.properties</file>
-                            </files>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>write-properties</id>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>write-project-properties</goal>
-                        </goals>
-                        <configuration>
-                            <outputFile>
-                                ${project.build.directory}/effective.properties
-                            </outputFile>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
     </build>
 
     <properties>
-        <main.basedir>${project.basedir}</main.basedir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <environment>development</environment>
+
+        <!-- default properties -->
+        <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
+        <hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</hibernate.dialect>
+        <test.jdbc.driverClassName>com.mysql.jdbc.Driver</test.jdbc.driverClassName>
+        <test.jdbc.username>testbot</test.jdbc.username>
+        <test.hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</test.hibernate.dialect>
+        <test.log.dir>${project.build.directory}/logs</test.log.dir>
+        <test.log.file>test.log</test.log.file>
+        <test.timeServer.host>localhost</test.timeServer.host>
+        <test.timeServer.port>10013</test.timeServer.port>
+        <selenium.server.browser>firefox</selenium.server.browser>
+        <selenium.server.browser.version>7</selenium.server.browser.version>
     </properties>
 
     <profiles>
         <profile>
             <id>env-dev</id>
             <activation>
+                <activeByDefault>true</activeByDefault>
                 <property>
                     <name>env</name>
                     <value>dev</value>
                 </property>
             </activation>
             <properties>
-                <environment>development</environment>
+                <server.port>8080</server.port>
+                <context.path></context.path>
+                <log.to>file</log.to>
+                <log.dir>${project.build.directory}/logs</log.dir>
+                <log.file>development.log</log.file>
+                <jdbc.url>jdbc:mysql://localhost:3306/petstore-dev</jdbc.url>
+                <jdbc.username>petstore</jdbc.username>
+                <jdbc.password>petstore</jdbc.password>
+                <timeServer.host>localhost</timeServer.host>
+                <timeServer.port>11000</timeServer.port>
+                <test.server.host>localhost</test.server.host>
+                <test.server.port>8080</test.server.port>
+                <test.jdbc.url>jdbc:mysql://localhost:3306/petstore-test</test.jdbc.url>
+                <test.jdbc.password>petstore</test.jdbc.password>
+                <browser.lifecycle>lasting</browser.lifecycle>
+                <selenium.server.url>http://localhost:4444/wd/hub</selenium.server.url>
             </properties>
         </profile>
         <profile>
@@ -365,7 +357,22 @@
                 </property>
             </activation>
             <properties>
-                <environment>test</environment>
+                <server.port>8081</server.port>
+                <context.path>/petstore</context.path>
+                <log.to>file</log.to>
+                <log.dir>${project.build.directory}/logs</log.dir>
+                <log.file>test.log</log.file>
+                <jdbc.url>jdbc:mysql://localhost:3306/petstore-test</jdbc.url>
+                <jdbc.username>testbot</jdbc.username>
+                <jdbc.password>petstore</jdbc.password>
+                <timeServer.host>localhost</timeServer.host>
+                <timeServer.port>11111</timeServer.port>
+                <test.server.host>localhost</test.server.host>
+                <test.server.port>8081</test.server.port>
+                <test.jdbc.url>jdbc:mysql://localhost:3306/petstore-test</test.jdbc.url>
+                <test.jdbc.password>petstore</test.jdbc.password>
+                <browser.lifecycle>lasting</browser.lifecycle>
+                <selenium.server.url>http://localhost:4444/wd/hub</selenium.server.url>
             </properties>
         </profile>
         <profile>
@@ -377,7 +384,20 @@
                 </property>
             </activation>
             <properties>
-                <environment>integration</environment>
+                <server.port>8000</server.port>
+                <context.path></context.path>
+                <log.to>console</log.to>
+                <jdbc.url>jdbc:mysql://${bees.database.host}:3306/petstore-edge</jdbc.url>
+                <jdbc.username>integrator</jdbc.username>
+                <jdbc.password>${bees.database.password}</jdbc.password>
+                <timeServer.host>time.nist.gov</timeServer.host>
+                <timeServer.port>13</timeServer.port>
+                <test.server.host>${sauce.host}</test.server.host>
+                <test.server.port>${sauce.port}</test.server.port>
+                <test.jdbc.url>jdbc:mysql://${bees.database.host}:3306/petstore-test</test.jdbc.url>
+                <test.jdbc.password>${bees.database.password}</test.jdbc.password>
+                <browser.lifecycle>remote</browser.lifecycle>
+                <selenium.server.url>http://${sauce.username}:${sauce.accessKey}@ondemand.saucelabs.com:80/wd/hub</selenium.server.url>
             </properties>
         </profile>
         <profile>
@@ -389,7 +409,20 @@
                 </property>
             </activation>
             <properties>
-                <environment>production</environment>
+                <server.port>8000</server.port>
+                <context.path></context.path>
+                <log.to>console</log.to>
+                <jdbc.url>jdbc:mysql://${bees.database.host}:3306/petstore-prod</jdbc.url>
+                <jdbc.username>sysadmin</jdbc.username>
+                <jdbc.password>${bees.database.password}</jdbc.password>
+                <timeServer.host>time.nist.gov</timeServer.host>
+                <timeServer.port>13</timeServer.port>
+                <test.server.host>${sauce.host}</test.server.host>
+                <test.server.port>${sauce.port}</test.server.port>
+                <test.jdbc.url>jdbc:mysql://${bees.database.host}:3306/petstore-test</test.jdbc.url>
+                <test.jdbc.password>${bees.database.password}</test.jdbc.password>
+                <browser.lifecycle>remote</browser.lifecycle>
+                <selenium.server.url>http://${sauce.username}:${sauce.accessKey}@ondemand.saucelabs.com:80/wd/hub</selenium.server.url>
             </properties>
         </profile>
     </profiles>

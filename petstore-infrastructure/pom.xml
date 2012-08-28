@@ -86,10 +86,6 @@
         </dependency>
     </dependencies>
 
-    <properties>
-        <main.basedir>${project.parent.basedir}</main.basedir>
-    </properties>
-
     <build>
         <plugins>
             <plugin>
@@ -158,7 +154,6 @@
                 </configuration>
             </plugin>
         </plugins>
-
         <testResources>
             <testResource>
                 <directory>src/test/resources</directory>

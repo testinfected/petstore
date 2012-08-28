@@ -224,8 +224,7 @@
                     <url>${test.jdbc.url}</url>
                     <username>${test.jdbc.username}</username>
                     <password>${test.jdbc.password}</password>
-                    <migrationsPath>${main.basedir}/petstore-infrastructure/src/main/scripts/migrations
-                    </migrationsPath>
+                    <migrationsPath>${project.basedir}/../petstore-infrastructure/src/main/scripts/migrations</migrationsPath>
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -312,10 +311,5 @@
                 </executions>
             </plugin>
         </plugins>
-
     </build>
-
-    <properties>
-        <main.basedir>${project.parent.basedir}</main.basedir>
-    </properties>
 </project>
