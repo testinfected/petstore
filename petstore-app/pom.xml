@@ -124,6 +124,7 @@
             <plugin>
                 <groupId>com.cloudbees</groupId>
                 <artifactId>bees-maven-plugin</artifactId>
+                <version>1.0-SNAPSHOT</version>
                 <configuration>
                     <port>${server.port}</port>
                 </configuration>
