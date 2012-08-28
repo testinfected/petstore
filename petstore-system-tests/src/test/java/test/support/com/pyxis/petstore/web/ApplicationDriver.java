@@ -207,6 +207,7 @@ public class ApplicationDriver {
         database.add(products);
     }
 
+    @SuppressWarnings("unchecked")
     public void addProducts(Product... products) {
         database.add(products);
     }
