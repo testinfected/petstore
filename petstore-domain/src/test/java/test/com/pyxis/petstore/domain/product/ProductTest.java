@@ -1,6 +1,8 @@
 package test.com.pyxis.petstore.domain.product;
 
 import com.pyxis.petstore.domain.product.Product;
+import org.hamcrest.FeatureMatcher;
+import org.hamcrest.Matcher;
 import org.junit.Test;
 import test.support.com.pyxis.petstore.builders.ProductBuilder;
 
@@ -33,6 +35,11 @@ public class ProductTest {
     }
 
     @Test public void
+    hasADefaultPhoto() {
+        assertThat("default photo", aProductWithoutAPhoto(), productWithPhoto("missing.png"));
+    }
+
+    @Test public void
     productIsUniquelyIdentifiedByItsNumber() {
         Product product = aProduct().withNumber("AAA-123").build();
         Product shouldMatch = aProduct().withNumber("AAA-123").build();
@@ -52,5 +59,17 @@ public class ProductTest {
 
     private ProductBuilder aValidProduct() {
         return aProduct();
+    }
+
+    private Product aProductWithoutAPhoto() {
+        return aProduct().withoutAPhoto().build();
+    }
+
+    private Matcher<? super Product> productWithPhoto(String fileName) {
+        return new FeatureMatcher<Product, String>(equalTo(fileName), "a product with photo", "photo") {
+            protected String featureValueOf(Product actual) {
+                return actual.getPhotoFileName();
+            }
+        };
     }
 }

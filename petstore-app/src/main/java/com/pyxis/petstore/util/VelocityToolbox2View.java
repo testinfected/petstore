@@ -1,4 +1,4 @@
-package com.pyxis.petstore.helpers;
+package com.pyxis.petstore.util;
 
 import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.Scope;

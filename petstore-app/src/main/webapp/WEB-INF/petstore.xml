@@ -42,7 +42,7 @@
         <!--<property name="exposeSessionAttributes" value="true"/>-->
         <!--<property name="exposeRequestAttributes" value="true"/>-->
         <property name="toolboxConfigLocation" value="classpath:/tools.xml"/>
-        <property name="viewClass" value="com.pyxis.petstore.helpers.VelocityToolbox2View"/>
+        <property name="viewClass" value="com.pyxis.petstore.util.VelocityToolbox2View"/>
         <property name="contentType" value="text/html;charset=UTF-8"/>
     </bean>
 
@@ -61,7 +61,7 @@
         <property name="basename" value="ValidationMessages"/>
     </bean>
 
-    <bean class="com.pyxis.petstore.service.SimplePhotoFileStore">
+    <bean class="com.pyxis.petstore.util.FileSystemPhotoStore">
         <constructor-arg value="attachments/products"/>
     </bean>
 

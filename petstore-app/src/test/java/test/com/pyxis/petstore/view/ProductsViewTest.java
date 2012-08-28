@@ -35,7 +35,7 @@ import static test.support.com.pyxis.petstore.views.VelocityRendering.render;
 public class ProductsViewTest {
     Routes routes = Routes.toPetstore();
     String PRODUCTS_VIEW_TEMPLATE = "products";
-    Object DEFAULT_PHOTO_URL = "url/of/missing.png";
+    Object DEFAULT_PHOTO_URL = "url/of/" + Product.MISSING_PHOTO;
     String keyword = "Iguana";
 
     Mockery context = new JUnit4Mockery();
@@ -52,7 +52,7 @@ public class ProductsViewTest {
     @Before public void
     setUpDefaultPhoto() {
         context.checking(new Expectations() {{
-            allowing(attachmentStorage).getAttachmentUri(with(aProductWithNoPhoto())); will(returnValue(DEFAULT_PHOTO_URL));
+            allowing(attachmentStorage).getLocation(Product.MISSING_PHOTO); will(returnValue(DEFAULT_PHOTO_URL));
         }});
     }
 
@@ -72,7 +72,7 @@ public class ProductsViewTest {
                 withPhoto("labrador.png"));
         final String photoUrl = "path/to/attachment/labrador.png";
         context.checking(new Expectations() {{
-            allowing(attachmentStorage).getAttachmentUri(with(aProductWithPhoto("labrador.png"))); will(returnValue(photoUrl));
+            allowing(attachmentStorage).getLocation(with("labrador.png")); will(returnValue(photoUrl));
         }});
 
         productsView = renderProductsView().using(model).asDom();
@@ -104,14 +104,6 @@ public class ProductsViewTest {
         assertThat("view", productsView,
                 hasSelector("li a", everyItem(
                         hasAttribute("href", equalTo(routes.itemsPath("LAB-1234"))))));
-    }
-
-    private Matcher<Product> aProductWithNoPhoto() {
-        return aProductWithPhoto(nullValue());
-    }
-
-    private Matcher<Product> aProductWithPhoto(String photoName) {
-        return aProductWithPhoto(equalTo(photoName));
     }
 
     private Matcher<Product> aProductWithPhoto(Matcher<? super String> photoMatcher) {
