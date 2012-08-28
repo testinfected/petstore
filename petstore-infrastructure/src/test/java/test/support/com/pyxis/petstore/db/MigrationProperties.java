@@ -1,6 +1,6 @@
 package test.support.com.pyxis.petstore.db;
 
-import test.support.com.pyxis.petstore.Properties;
+import java.util.Properties;
 
 public class MigrationProperties {
 
@@ -13,6 +13,6 @@ public class MigrationProperties {
     }
 
     public String migrationsPath() {
-        return properties.getString(MIGRATIONS_PATH);
+        return properties.getProperty(MIGRATIONS_PATH);
     }
 }

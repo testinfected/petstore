@@ -1,7 +1,5 @@
 package test.support.com.pyxis.petstore.web.server;
 
-import test.support.com.pyxis.petstore.Properties;
-
 import java.util.HashMap;
 import java.util.Map;
 

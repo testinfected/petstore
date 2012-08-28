@@ -1,6 +1,6 @@
 package test.support.com.pyxis.petstore.web;
 
-import test.support.com.pyxis.petstore.Properties;
+import test.support.com.pyxis.petstore.PropertyFile;
 import test.support.com.pyxis.petstore.db.DatabaseMigrator;
 import test.support.com.pyxis.petstore.db.Spring;
 import test.support.com.pyxis.petstore.web.browser.BrowserControl;
@@ -9,6 +9,8 @@ import test.support.com.pyxis.petstore.web.browser.BrowserProperties;
 import test.support.com.pyxis.petstore.web.server.ServerLifeCycle;
 import test.support.com.pyxis.petstore.web.server.ServerLifeCycles;
 import test.support.com.pyxis.petstore.web.server.ServerProperties;
+
+import java.util.Properties;
 
 public class TestEnvironment {
 
@@ -24,7 +26,7 @@ public class TestEnvironment {
     }
 
     public static TestEnvironment load(String resource) {
-        return new TestEnvironment(Properties.load(resource));
+        return new TestEnvironment(PropertyFile.load(resource));
     }
 
     public final Spring spring;
@@ -42,7 +44,7 @@ public class TestEnvironment {
     }
 
     private Spring loadSpringContext(Properties properties) {
-        return new Spring(properties.toJavaProperties());
+        return new Spring(properties);
     }
 
     private void migrateDatabase(Properties properties) {
@@ -50,8 +52,8 @@ public class TestEnvironment {
     }
 
     private void overrideWithSystemProperties(Properties properties) {
-        properties.override(Properties.system());
-        Properties.system().merge(properties);
+        properties.putAll(System.getProperties());
+        System.getProperties().putAll(properties);
     }
 
     private ServerLifeCycle selectServer(ServerProperties properties) {

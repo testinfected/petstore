@@ -1,6 +1,8 @@
 package test.support.com.pyxis.petstore.db;
 
-import test.support.com.pyxis.petstore.Properties;
+import test.support.com.pyxis.petstore.PropertyFile;
+
+import java.util.Properties;
 
 public class TestEnvironment {
 
@@ -17,7 +19,7 @@ public class TestEnvironment {
     }
 
     public static TestEnvironment load(final String name) {
-        return new TestEnvironment(Properties.load(name));
+        return new TestEnvironment(PropertyFile.load(name));
     }
 
     public TestEnvironment(Properties properties) {
@@ -26,7 +28,7 @@ public class TestEnvironment {
     }
 
     private void loadSpringContext(Properties properties) {
-        this.spring = new Spring(properties.toJavaProperties());
+        this.spring = new Spring(properties);
     }
 
     private void migrateDatabase(Properties properties) {

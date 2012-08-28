@@ -1,7 +1,6 @@
 o put properties in maven profiles to be IDE friendly again
 o Refactor attachment stuff, it sucks and move file store to webapp
 o Rename infra to persistence
-o Get rid of Properties
 o Have header and footer templates instead of fragments
 o Replace Velocity with StringTemplate or Mustache
 o Fix layout of header

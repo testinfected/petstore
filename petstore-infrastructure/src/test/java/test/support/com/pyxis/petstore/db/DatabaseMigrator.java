@@ -2,9 +2,9 @@ package test.support.com.pyxis.petstore.db;
 
 import com.carbonfive.db.migration.DataSourceMigrationManager;
 import com.carbonfive.db.migration.ResourceMigrationResolver;
-import test.support.com.pyxis.petstore.Properties;
 
 import javax.sql.DataSource;
+import java.util.Properties;
 
 public class DatabaseMigrator {
 
