@@ -23,7 +23,7 @@ public class Product implements Serializable {
     )
     private Attachment photo;
 
-    Product() {}
+    public Product() {}
 
     public Product(String number, String name) {
         this.number = number;
@@ -34,7 +34,15 @@ public class Product implements Serializable {
 		return number;
 	}
 
-	public String getName() {
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
 		return name;
 	}
 

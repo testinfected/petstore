@@ -2,6 +2,7 @@ package test.com.pyxis.petstore.controller;
 
 import com.pyxis.petstore.controller.ProductsController;
 import com.pyxis.petstore.domain.product.AttachmentStorage;
+import com.pyxis.petstore.domain.product.Product;
 import com.pyxis.petstore.domain.product.ProductCatalog;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -10,11 +11,13 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 
 import java.util.Arrays;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.testinfected.hamcrest.spring.SpringMatchers.containsAttribute;
 import static org.testinfected.hamcrest.spring.SpringMatchers.hasAttribute;
 import static java.util.Collections.emptyList;
@@ -27,7 +30,8 @@ import static test.support.com.pyxis.petstore.builders.ProductBuilder.aProduct;
 public class ProductsControllerTest {
 
     String ANY_PRODUCT = "a product";
-    
+    int CREATED = 201;
+
     Mockery context = new JUnit4Mockery();
     ProductCatalog productCatalog = context.mock(ProductCatalog.class);
     AttachmentStorage attachmentStorage = context.mock(AttachmentStorage.class);
@@ -70,4 +74,18 @@ public class ProductsControllerTest {
         productsController.index(ANY_PRODUCT, model);
         assertThat("model", model, hasAttribute("keyword", ANY_PRODUCT));
     }
+
+    @Test public void
+    addsProductToCatalog() {
+        final Product labrador = aProduct("00000001").named("Labrador").describedAs("Chocolate color").withPhoto("Labrador.png").build();
+        context.checking(new Expectations() {{
+            oneOf(productCatalog).add(with(same(labrador)));
+        }});
+        MockHttpServletResponse response = new MockHttpServletResponse();
+
+        productsController.create(labrador, response);
+
+        assertThat("status code", response.getStatus(), equalTo(CREATED));
+    }
+
 }

@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
 public class ProductsController {
 
-	private final ProductCatalog productCatalog;
+    private final ProductCatalog productCatalog;
     private final AttachmentStorage attachmentStorage;
 
     @Autowired
@@ -35,5 +36,11 @@ public class ProductsController {
         List<Product> matchingProducts = productCatalog.findByKeyword(keyword);
         model.addAttribute(matchingProducts);
         model.addAttribute("keyword", keyword);
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public void create(Product product, HttpServletResponse response) {
+        productCatalog.add(product);
+        response.setStatus(HttpServletResponse.SC_CREATED);
     }
 }
