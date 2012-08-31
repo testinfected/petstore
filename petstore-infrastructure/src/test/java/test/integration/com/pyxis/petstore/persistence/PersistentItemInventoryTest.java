@@ -93,12 +93,12 @@ public class PersistentItemInventoryTest {
 
     @Test(expected = ConstraintViolationException.class) public void
     itemIsInvalidWithoutAnAssociatedProduct() {
-        database.persist(anItemWithoutAnAssociatedProduct());
+        itemInventory.add(anItemWithoutAnAssociatedProduct());
     }
 
     @Test(expected = ConstraintViolationException.class) public void
     itemIsInvalidWithoutAPrice() {
-        database.persist(anItemWithoutAPrice());
+        itemInventory.add(anItemWithoutAPrice());
     }
 
     @Test public void
@@ -110,7 +110,7 @@ public class PersistentItemInventoryTest {
 
         database.persist(product);
         for (Item item : sampleItems) {
-            database.persist(item);
+            itemInventory.add(item);
             database.assertCanBeReloadedWithSameState(item);
         }
     }
@@ -135,30 +135,30 @@ public class PersistentItemInventoryTest {
         };
     }
 
-    private ItemBuilder anItemWithoutAReferenceNumber(Product product) {
-        return anItem().of(product).withNumber(null);
+    private Item anItemWithoutAReferenceNumber(Product product) {
+        return anItem().of(product).withNumber(null).build();
     }
 
-    private ItemBuilder anItemWithoutAnAssociatedProduct() {
-        return anItem().of((Product) null);
+    private Item anItemWithoutAnAssociatedProduct() {
+        return anItem().of((Product) null).build();
     }
 
-    private ItemBuilder anItemWithoutAPrice() {
-        return anItem().priced((BigDecimal) null);
+    private Item anItemWithoutAPrice() {
+        return anItem().priced((BigDecimal) null).build();
     }
 
     private void assertViolatesUniqueness(Item item) {
         try {
-            database.persist(item);
+            itemInventory.add(item);
             fail("No constraint violation");
         } catch (org.hibernate.exception.ConstraintViolationException expected) {
             assertTrue(true);
         }
     }
 
-    private void assertFailsPersisting(ItemBuilder item) {
+    private void assertFailsPersisting(Item item) {
         try {
-            database.persist(item);
+            itemInventory.add(item);
             fail("No validation violation");
         } catch (ConstraintViolationException expected) {
             assertTrue(true);
