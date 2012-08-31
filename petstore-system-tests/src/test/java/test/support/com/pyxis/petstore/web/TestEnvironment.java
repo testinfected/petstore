@@ -169,7 +169,7 @@ public class TestEnvironment {
         try {
             return new URL(url);
         } catch (MalformedURLException e) {
-            throw new IllegalArgumentException(BROWSER_REMOTE_URL + " is not a valid url: " + url, e);
+            throw new IllegalArgumentException(key + " is not a valid url: " + url, e);
         }
     }
 }
