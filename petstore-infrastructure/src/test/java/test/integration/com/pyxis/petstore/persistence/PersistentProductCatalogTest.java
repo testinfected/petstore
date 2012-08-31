@@ -1,5 +1,6 @@
 package test.integration.com.pyxis.petstore.persistence;
 
+import com.pyxis.petstore.Maybe;
 import com.pyxis.petstore.domain.product.Product;
 import com.pyxis.petstore.domain.product.ProductCatalog;
 import org.hamcrest.FeatureMatcher;
@@ -45,7 +46,16 @@ public class PersistentProductCatalogTest {
     }
 
     @Test public void
-    wontFindAnythingIfNoProductMatches() throws Exception {
+    findsProductsByNumber() {
+        database.given(aProduct().withNumber("PRD-0001"));
+
+        Maybe<Product> product = productCatalog.findByNumber("PRD-0001");
+        assertThat("no match", product.exists());
+        assertThat("match", product.bare(), productWithNumber("PRD-0001"));
+    }
+
+    @Test public void
+    findsNothingWhenNameAndDescriptionDoNoMatch() throws Exception {
         database.given(aProduct().named("Dalmatian").describedAs("A big dog"));
 
         Collection<Product> matchingProducts = productCatalog.findByKeyword("bulldog");
@@ -58,7 +68,7 @@ public class PersistentProductCatalogTest {
 
     @SuppressWarnings("unchecked")
     @Test public void
-    canFindProductsByMatchingName() throws Exception {
+    findsProductsByMatchingName() throws Exception {
         database.given(aProduct().named("English Bulldog"), and(aProduct().named("French Bulldog")), and(aProduct().named("Labrador Retriever")));
 
         Collection<Product> matches = productCatalog.findByKeyword("bull");
@@ -68,7 +78,7 @@ public class PersistentProductCatalogTest {
 
     @SuppressWarnings("unchecked")
     @Test public void
-    canFindProductsByMatchingDescription() throws Exception {
+    findsProductsByMatchingDescription() throws Exception {
         database.given(aProduct().named("Labrador").describedAs("Friendly"), and(aProduct().named("Golden").describedAs("Kids best friend")), and(aProduct().named("Poodle").describedAs("Annoying")));
 
         List<Product> matches = productCatalog.findByKeyword("friend");
@@ -122,6 +132,14 @@ public class PersistentProductCatalogTest {
         return new FeatureMatcher<Product, String>(equalTo(name), "a product named", "product name") {
             @Override protected String featureValueOf(Product actual) {
                 return actual.getName();
+            }
+        };
+    }
+
+    private Matcher<Product> productWithNumber(String number) {
+        return new FeatureMatcher<Product, String>(equalTo(number), "a product with number", "product number") {
+            @Override protected String featureValueOf(Product actual) {
+                return actual.getNumber();
             }
         };
     }
