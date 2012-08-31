@@ -77,13 +77,13 @@ public class ProductsControllerTest {
 
     @Test public void
     addsProductToCatalog() {
-        final Product labrador = aProduct("00000001").named("Labrador").describedAs("Chocolate color").withPhoto("Labrador.png").build();
+        final Product product = aProduct().build();
         context.checking(new Expectations() {{
-            oneOf(productCatalog).add(with(same(labrador)));
+            oneOf(productCatalog).add(with(same(product)));
         }});
         MockHttpServletResponse response = new MockHttpServletResponse();
 
-        productsController.create(labrador, response);
+        productsController.create(product, response);
 
         assertThat("status code", response.getStatus(), equalTo(CREATED));
     }

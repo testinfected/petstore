@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -39,7 +40,7 @@ public class ProductsController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void create(Product product, HttpServletResponse response) {
+    public void create(@Valid Product product, HttpServletResponse response) {
         productCatalog.add(product);
         response.setStatus(HttpServletResponse.SC_CREATED);
     }
