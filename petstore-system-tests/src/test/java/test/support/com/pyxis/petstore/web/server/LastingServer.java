@@ -4,8 +4,8 @@ public class LastingServer implements ServerLifeCycle {
 
     private final WebServer shared;
 
-    public LastingServer(ServerProperties properties) {
-        this.shared = new WebServer(properties);
+    public LastingServer(String host, int port, String contextPath, String webappPath) {
+        this.shared = new WebServer(host, port, contextPath, webappPath);
     }
 
     public void start() {

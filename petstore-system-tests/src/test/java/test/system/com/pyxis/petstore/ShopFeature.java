@@ -40,7 +40,7 @@ public class ShopFeature {
     }
 
     @Before public void
-    startApplication() throws IOException {
+    startApplication() throws Exception {
         application.start();
         iguanaAreForSale();
     }

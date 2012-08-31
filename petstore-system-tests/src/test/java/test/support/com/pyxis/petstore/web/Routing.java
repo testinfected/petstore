@@ -1,26 +1,29 @@
 package test.support.com.pyxis.petstore.web;
 
-import test.support.com.pyxis.petstore.web.server.ServerProperties;
-
+import java.net.MalformedURLException;
 import java.net.URL;
 
 public final class Routing {
 
-    private final ServerProperties server;
+    private final String baseUrl;
 
-    public Routing(ServerProperties server) {
-        this.server = server;
+    public Routing(String baseUrl) {
+        this.baseUrl = baseUrl;
     }
 
-    public URL toHome() {
-        return server.urlFor("/");
+    public URL toHome() throws MalformedURLException {
+        return urlFor("/");
     }
 
-    public URL toProducts() {
-        return server.urlFor("/products");
+    public URL toProducts() throws MalformedURLException {
+        return urlFor("/products");
     }
 
-    public URL toItems() {
-        return server.urlFor("/items");
+    public URL toItems() throws MalformedURLException {
+        return urlFor("/items");
+    }
+
+    public URL urlFor(String path) throws MalformedURLException {
+        return new URL(baseUrl + path);
     }
 }

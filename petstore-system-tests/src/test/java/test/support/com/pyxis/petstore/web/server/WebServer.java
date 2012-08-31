@@ -21,10 +21,6 @@ public class WebServer {
     private String contextPath;
     private String webAppPath;
 
-    public WebServer(ServerProperties properties) {
-        this(properties.host(), properties.port(), properties.contextPath(), properties.webAppPath());
-    }
-
     public WebServer(String host, int port, String contextPath, String webAppPath) {
         this.host = host;
         this.port = port;

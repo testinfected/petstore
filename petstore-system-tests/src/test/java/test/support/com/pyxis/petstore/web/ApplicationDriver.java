@@ -1,25 +1,17 @@
 package test.support.com.pyxis.petstore.web;
 
-import com.objogate.wl.UnsynchronizedProber;
 import com.objogate.wl.web.AsyncWebDriver;
-import org.hibernate.SessionFactory;
-import org.openqa.selenium.WebDriver;
-import test.support.com.pyxis.petstore.web.browser.BrowserControl;
 import test.support.com.pyxis.petstore.web.page.*;
-import test.support.com.pyxis.petstore.web.server.ServerLifeCycle;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 
 public class ApplicationDriver {
 
-    private final ServerLifeCycle server;
-    private final BrowserControl browserControl;
-    private final DatabaseDriver database;
-    private final Routing routes;
-    private final AdministrationDriver admin;
+    private final TestEnvironment environment;
 
-    private WebDriver webDriver;
+    private AdministrationDriver admin;
+    private AsyncWebDriver browser;
     private HomePage homePage;
     private ProductsPage productsPage;
     private ItemsPage itemsPage;
@@ -29,31 +21,24 @@ public class ApplicationDriver {
     private Menu menu;
 
     public ApplicationDriver(TestEnvironment environment) {
-        this.server = environment.serverLifeCycle;
-        this.database = new DatabaseDriver(environment.getComponent(SessionFactory.class));
-        this.browserControl = environment.browserControl;
-        this.routes = environment.routes;
-        this.admin = new AdministrationDriver(environment.webClient, routes);
+        this.environment = environment;
     }
 
-    public void start() {
-        startDatabase();
+    public void start() throws Exception {
         startWebServer();
         startBrowser();
-        openHomePage();
-    }
-
-    private void startDatabase() {
-        database.start();
+        makeDrivers();
     }
 
     private void startWebServer() {
-        server.start();
+        environment.startServer();
     }
 
-    private void startBrowser() {
-        this.webDriver = browserControl.launch();
-        AsyncWebDriver browser = new AsyncWebDriver(new UnsynchronizedProber(), webDriver);
+    private void startBrowser() throws Exception {
+        this.browser = environment.startBrowser();
+    }
+
+    private void makeDrivers() {
         menu = new Menu(browser);
         homePage = new HomePage(browser);
         productsPage = new ProductsPage(browser);
@@ -61,29 +46,26 @@ public class ApplicationDriver {
         cartPage = new CartPage(browser);
         purchasePage = new PurchasePage(browser);
         receiptPage = new ReceiptPage(browser);
-    }
-
-    public void openHomePage() {
-        webDriver.navigate().to(routes.toHome());
+        admin = new AdministrationDriver(environment.makeWebClient(), environment.routes());
     }
 
     public void stop() {
         logout();
-        stopWebServer();
+        stopServer();
         stopBrowser();
-        stopDatabase();
+        cleanupEnvironment();
     }
 
-    private void stopDatabase() {
-        database.stop();
+    private void cleanupEnvironment() {
+        environment.wipe();
     }
 
     private void stopBrowser() {
-        webDriver.close();
+        browser.quit();
     }
 
-    private void stopWebServer() {
-        server.stop();
+    private void stopServer() {
+        environment.stopServer();
     }
 
     public void logout() {
@@ -204,7 +186,7 @@ public class ApplicationDriver {
     }
 
     public void addProduct(String number, String name) throws IOException {
-        addProduct(number, name,  "");
+        addProduct(number, name, "");
     }
 
     public void addProduct(String number, String name, String description) throws IOException {

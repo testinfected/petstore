@@ -1,19 +1,23 @@
 package test.support.com.pyxis.petstore.web.browser;
 
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import java.net.URL;
+
 public class RemoteBrowser implements BrowserControl {
 
-    private final BrowserProperties properties;
+    private final URL url;
+    private final DesiredCapabilities capabilities;
 
-    public RemoteBrowser(BrowserProperties properties) {
-        this.properties = properties;
+    public RemoteBrowser(URL url, Capabilities capabilities) {
+        this.url = url;
+        this.capabilities = new DesiredCapabilities(capabilities);
     }
 
     public WebDriver launch() {
-        DesiredCapabilities capabilities = new DesiredCapabilities(properties.capabilities());
-        return new RemoteWebDriver(properties.remoteUrl(), capabilities);
+        return new RemoteWebDriver(url, capabilities);
     }
 }

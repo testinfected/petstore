@@ -32,7 +32,7 @@ public class SearchFeature {
     }
 
     @Before public void
-    startApplication() {
+    startApplication() throws Exception {
         application.start();
     }
 

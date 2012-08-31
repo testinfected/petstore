@@ -22,19 +22,25 @@ public class LastingBrowser implements BrowserControl {
     }
 
     protected WebDriver launchBrowser() {
-        FirefoxDriver browser = new FirefoxDriver() {
-            public void close() {
-            }
-        };
+        LastingWebDriver browser = new LastingWebDriver();
         Runtime.getRuntime().addShutdownHook(new ShutdownHook(browser));
         return browser;
     }
 
+    private static class LastingWebDriver extends FirefoxDriver {
+        public void shutdown() {
+            super.quit();
+        }
+
+        public void quit() {
+        }
+    }
+
     private class ShutdownHook extends Thread {
-        private ShutdownHook(final WebDriver browser) {
+        private ShutdownHook(final LastingWebDriver browser) {
             super(new Runnable() {
                 public void run() {
-                    browser.quit();
+                    browser.shutdown();
                 }
             });
         }

@@ -28,7 +28,7 @@ public class BrowseCatalogFeature {
     }
 
     @Before public void
-    startApplication() {
+    startApplication() throws Exception {
         application.start();
     }
 
