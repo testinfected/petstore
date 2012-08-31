@@ -6,30 +6,29 @@ import org.junit.Test;
 import test.support.com.pyxis.petstore.web.ApplicationDriver;
 import test.support.com.pyxis.petstore.web.TestEnvironment;
 
-import static test.support.com.pyxis.petstore.builders.ProductBuilder.aProduct;
+import java.io.IOException;
 
 public class SearchFeature {
 
     ApplicationDriver application = new ApplicationDriver(TestEnvironment.load());
 
     @Test public void
-    searchesForAProductNotAvailableInStore() {
-        application.addProducts(aProduct().named("Labrador Retriever"));
-
+    searchesForAProductNotAvailableInStore() throws Exception {
+        application.addProduct("DOG-0001", "Labrador Retriever");
         application.searchFor("Dalmatian");
         application.showsNoResult();
     }
 
     @Test public void
-    searchesAndFindsProductsInCatalog() {
-        application.addProducts(aProduct("LAB-1234").named("Labrador Retriever"),
-                aProduct("CHE-5678").named("Chesapeake").describedAs("Chesapeake bay retriever"),
-                aProduct().named("Dalmatian"));
+    searchesAndFindsProductsInCatalog() throws IOException {
+        application.addProduct("DOG-0001", "Labrador Retriever");
+        application.addProduct("DOG-0002", "Chesapeake", "Chesapeake bay retriever");
+        application.addProduct("DOG-0003", "Dalmatian");
 
         application.searchFor("retriever");
         application.displaysNumberOfResults(2);
-        application.displaysProduct("LAB-1234", "Labrador Retriever");
-        application.displaysProduct("CHE-5678", "Chesapeake");
+        application.displaysProduct("DOG-0001", "Labrador Retriever");
+        application.displaysProduct("DOG-0002", "Chesapeake");
     }
 
     @Before public void

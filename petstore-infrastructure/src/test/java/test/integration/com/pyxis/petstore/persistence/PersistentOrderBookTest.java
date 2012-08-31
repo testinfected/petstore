@@ -61,9 +61,9 @@ public class PersistentOrderBookTest {
     findsOrdersByNumber() {
         database.given(anOrder().withNumber("00000100"));
 
-        Maybe<Order> entry = orderBook.find(new OrderNumber("00000100"));
-        assertThat("no match", entry.exists());
-        assertThat("match", entry.bare(), orderWithNumber("00000100"));
+        Maybe<Order> order = orderBook.find(new OrderNumber("00000100"));
+        assertThat("no match", order.exists());
+        assertThat("match", order.bare(), orderWithNumber("00000100"));
     }
 
     @Test(expected = ConstraintViolationException.class) public void
@@ -82,7 +82,7 @@ public class PersistentOrderBookTest {
     }
 
     private void assertCanPersistAndReload(String orderName, Order order) {
-        database.persist(order);
+        orderBook.record(order);
         database.assertCanBeReloadedWithSameState(orderName, order);
         if (order.isPaid()) database.assertCanBeReloadedWithSameState(order.getPaymentMethod());
     }
@@ -93,7 +93,7 @@ public class PersistentOrderBookTest {
                 anItem().withNumber("00000100").priced("100.00"),
                 anItem().withNumber("00000100").priced("100.00"),
                 anItem().withNumber("00000111").describedAs("White lizard"))).build();
-        database.persist(order);
+        orderBook.record(order);
 
         database.perform(new UnitOfWork() {
             public void work(Session session) {

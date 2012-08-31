@@ -1,14 +1,10 @@
 package test.system.com.pyxis.petstore;
 
-import com.pyxis.petstore.domain.product.Product;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import test.support.com.pyxis.petstore.web.ApplicationDriver;
 import test.support.com.pyxis.petstore.web.TestEnvironment;
-
-import static test.support.com.pyxis.petstore.builders.ItemBuilder.a;
-import static test.support.com.pyxis.petstore.builders.ProductBuilder.aProduct;
 
 public class PurchaseFeature {
 
@@ -33,18 +29,16 @@ public class PurchaseFeature {
     }
 
     @Before public void
-    startApplication() {
+    startApplication() throws Exception {
         application.start();
-        labradorsAreForSale();
+        retrieversAreForSale();
     }
 
-    private void labradorsAreForSale() {
-        Product labrador = aProduct().named("Labrador Retriever").build();
-        Product golden = aProduct().named("Golden Retriever").build();
-        application.addProducts(labrador, golden);
-        application.addItems(
-                a(labrador).withNumber("11111111").describedAs("Male Adult").priced("599.00"),
-                a(golden).withNumber("22222222").describedAs("Female Adult").priced("649.00"));
+    private void retrieversAreForSale() throws Exception {
+        application.addProduct("DOG-0001", "Labrador Retriever");
+        application.addProduct("DOG-0002", "Golden Retriever");
+        application.addItem("DOG-0001", "11111111", "Male Adult", "599.00");
+        application.addItem("DOG-0002", "22222222", "Female Adult", "649.00");
     }
 
     @After public void

@@ -25,12 +25,13 @@ public class AdministrationDriver {
         this.client = client;
     }
 
-    public void addProduct(String number, String name) throws IOException {
+    public void addProduct(String number, String name, String description) throws IOException {
         WebRequest request = new WebRequest(routes.toProducts(), HttpMethod.POST);
 
         List<NameValuePair> requestParameters = new ArrayList<NameValuePair>();
         requestParameters.add(new NameValuePair("number", number));
         requestParameters.add(new NameValuePair("name", name));
+        requestParameters.add(new NameValuePair("description", description));
         request.setRequestParameters(requestParameters);
 
         WebResponse response = client.loadWebResponse(request);

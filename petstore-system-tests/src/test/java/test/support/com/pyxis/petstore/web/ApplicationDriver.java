@@ -2,11 +2,8 @@ package test.support.com.pyxis.petstore.web;
 
 import com.objogate.wl.UnsynchronizedProber;
 import com.objogate.wl.web.AsyncWebDriver;
-import com.pyxis.petstore.domain.product.Product;
 import org.hibernate.SessionFactory;
 import org.openqa.selenium.WebDriver;
-import test.support.com.pyxis.petstore.builders.ItemBuilder;
-import test.support.com.pyxis.petstore.builders.ProductBuilder;
 import test.support.com.pyxis.petstore.web.browser.BrowserControl;
 import test.support.com.pyxis.petstore.web.page.*;
 import test.support.com.pyxis.petstore.web.server.ServerLifeCycle;
@@ -207,20 +204,11 @@ public class ApplicationDriver {
     }
 
     public void addProduct(String number, String name) throws IOException {
-        admin.addProduct(number, name);
+        addProduct(number, name,  "");
     }
 
-    public void addProducts(ProductBuilder... products) {
-        database.add(products);
-    }
-
-    @SuppressWarnings("unchecked")
-    public void addProducts(Product... products) {
-        database.add(products);
-    }
-
-    public void addItems(ItemBuilder... items) {
-        database.add(items);
+    public void addProduct(String number, String name, String description) throws IOException {
+        admin.addProduct(number, name, description);
     }
 
     public void addItem(String productNumber, String itemNumber, String description, String price) throws IOException {

@@ -1,15 +1,10 @@
 package test.system.com.pyxis.petstore;
 
-import com.pyxis.petstore.domain.product.Product;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import test.support.com.pyxis.petstore.web.ApplicationDriver;
 import test.support.com.pyxis.petstore.web.TestEnvironment;
-
-import static test.support.com.pyxis.petstore.builders.ItemBuilder.a;
-import static test.support.com.pyxis.petstore.builders.ItemBuilder.an;
-import static test.support.com.pyxis.petstore.builders.ProductBuilder.aProduct;
 
 public class NavigateSiteFeature {
 
@@ -33,17 +28,15 @@ public class NavigateSiteFeature {
     }
 
     @Before public void
-    startApplication() {
+    startApplication() throws Exception {
         application.start();
-        inventoryIsNotEmpty();
+        populateInventory();
     }
 
-    private void inventoryIsNotEmpty() {
-        Product iguana = aProduct().named("Iguana").build();
-        application.addProducts(iguana);
-        Product salamander = aProduct().named("Salamander").build();
-        application.addProducts(salamander);
-        application.addItems(an(iguana).withNumber("12345678").priced("50.00"), a(salamander));
+    private void populateInventory() throws Exception {
+        application.addProduct("LIZ-0001", "Iguana");
+        application.addProduct("LIZ-0002", "Salamander");
+        application.addItem("LIZ-0001", "12345678", "Blue skin", "50.00");
     }
 
     @After public void

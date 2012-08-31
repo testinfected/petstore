@@ -1,14 +1,12 @@
 package test.system.com.pyxis.petstore;
 
-import com.pyxis.petstore.domain.product.Product;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import test.support.com.pyxis.petstore.web.ApplicationDriver;
 import test.support.com.pyxis.petstore.web.TestEnvironment;
 
-import static test.support.com.pyxis.petstore.builders.ItemBuilder.an;
-import static test.support.com.pyxis.petstore.builders.ProductBuilder.aProduct;
+import java.io.IOException;
 
 public class ShopFeature {
 
@@ -42,17 +40,15 @@ public class ShopFeature {
     }
 
     @Before public void
-    startApplication() {
+    startApplication() throws IOException {
         application.start();
         iguanaAreForSale();
     }
 
-    private void iguanaAreForSale() {
-        Product iguana = aProduct().named("Iguana").build();
-        application.addProducts(iguana);
-        application.addItems(
-                an(iguana).withNumber("12345678").describedAs("Green Adult").priced("18.50"),
-                an(iguana).withNumber("87654321").describedAs("Blue Female").priced("58.97"));
+    private void iguanaAreForSale() throws IOException {
+        application.addProduct("LIZ-0001", "Iguana");
+        application.addItem("LIZ-0001", "12345678", "Green Adult", "18.50");
+        application.addItem("LIZ-0001", "87654321", "Blue Female", "58.97");
     }
 
     @After public void
