@@ -29,6 +29,14 @@ public class Item implements Serializable {
         this.price = price;
     }
 
+    public void setNumber(String number) {
+        this.number = new ItemNumber(number);
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
     public String getNumber() {
         return number.getNumber();
     }
@@ -47,6 +55,14 @@ public class Item implements Serializable {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public String getProductNumber() {
+        return product.getNumber();
     }
 
     @Override
