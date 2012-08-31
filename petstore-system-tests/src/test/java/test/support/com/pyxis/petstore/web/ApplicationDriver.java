@@ -11,6 +11,7 @@ import test.support.com.pyxis.petstore.web.browser.BrowserControl;
 import test.support.com.pyxis.petstore.web.page.*;
 import test.support.com.pyxis.petstore.web.server.ServerLifeCycle;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 public class ApplicationDriver {
@@ -19,6 +20,7 @@ public class ApplicationDriver {
     private final BrowserControl browserControl;
     private final DatabaseDriver database;
     private final Routing routes;
+    private final AdministrationDriver admin;
 
     private WebDriver webDriver;
     private HomePage homePage;
@@ -34,6 +36,7 @@ public class ApplicationDriver {
         this.database = new DatabaseDriver(environment.getComponent(SessionFactory.class));
         this.browserControl = environment.browserControl;
         this.routes = environment.routes;
+        this.admin = new AdministrationDriver(environment.webClient, routes);
     }
 
     public void start() {
@@ -64,7 +67,7 @@ public class ApplicationDriver {
     }
 
     public void openHomePage() {
-        webDriver.navigate().to(routes.urlFor(HomePage.class));
+        webDriver.navigate().to(routes.toHome());
     }
 
     public void stop() {
@@ -203,6 +206,10 @@ public class ApplicationDriver {
         cartPage.displays();
     }
 
+    public void addProduct(String number, String name) throws IOException {
+        admin.addProduct(number, name);
+    }
+
     public void addProducts(ProductBuilder... products) {
         database.add(products);
     }
@@ -214,5 +221,9 @@ public class ApplicationDriver {
 
     public void addItems(ItemBuilder... items) {
         database.add(items);
+    }
+
+    public void addItem(String productNumber, String itemNumber, String description, String price) throws IOException {
+        admin.addItem(productNumber, itemNumber, description, price);
     }
 }

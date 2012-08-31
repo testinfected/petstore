@@ -1,5 +1,6 @@
 package test.support.com.pyxis.petstore.web;
 
+import com.gargoylesoftware.htmlunit.WebClient;
 import test.support.com.pyxis.petstore.PropertyFile;
 import test.support.com.pyxis.petstore.db.DatabaseMigrator;
 import test.support.com.pyxis.petstore.db.Spring;
@@ -33,6 +34,7 @@ public class TestEnvironment {
     public final ServerLifeCycle serverLifeCycle;
     public final BrowserControl browserControl;
     public final Routing routes;
+    public final WebClient webClient;
 
     public TestEnvironment(Properties properties) {
         overrideWithSystemProperties(properties);
@@ -41,6 +43,13 @@ public class TestEnvironment {
         this.serverLifeCycle = selectServer(new ServerProperties(properties));
         this.browserControl = selectBrowser(new BrowserProperties(properties));
         this.routes = new Routing(new ServerProperties(properties));
+        this.webClient = makeWebClient();
+    }
+
+    private WebClient makeWebClient() {
+        WebClient webClient = new WebClient();
+        webClient.setTimeout(5000);
+        return webClient;
     }
 
     private Spring loadSpringContext(Properties properties) {
