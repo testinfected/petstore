@@ -24,15 +24,15 @@ public class TestEnvironment {
 
     public TestEnvironment(Properties properties) {
         loadSpringContext(properties);
-        migrateDatabase(properties);
+        migrateDatabase();
     }
 
     private void loadSpringContext(Properties properties) {
         this.spring = new Spring(properties);
     }
 
-    private void migrateDatabase(Properties properties) {
-        new DatabaseMigrator(properties).migrate(spring.getDataSource());
+    private void migrateDatabase() {
+        new DatabaseMigrator(spring.getDataSource()).migrate();
     }
 
     public <T> T get(Class<T> type) {

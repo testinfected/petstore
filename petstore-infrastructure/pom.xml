@@ -119,7 +119,7 @@
                     <url>${jdbc.url}</url>
                     <username>${jdbc.username}</username>
                     <password>${jdbc.password}</password>
-                    <migrationsPath>${project.basedir}/src/main/scripts/migrations</migrationsPath>
+                    <migrationsPath>${project.basedir}/src/main/resources/db/migrations</migrationsPath>
                 </configuration>
                 <dependencies>
                     <dependency>

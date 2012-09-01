@@ -8,15 +8,15 @@ import java.util.Properties;
 
 public class DatabaseMigrator {
 
-    private final MigrationProperties properties;
+    private final DataSource dataSource;
 
-    public DatabaseMigrator(Properties properties) {
-        this.properties = new MigrationProperties(properties);
+    public DatabaseMigrator(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
-    public void migrate(DataSource dataSource) {
+    public void migrate() {
         DataSourceMigrationManager migrationManager = new DataSourceMigrationManager(dataSource);
-        migrationManager.setMigrationResolver(new ResourceMigrationResolver(properties.migrationsPath()));
+        migrationManager.setMigrationResolver(new ResourceMigrationResolver());
         migrationManager.migrate();
     }
 }
