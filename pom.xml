@@ -340,8 +340,8 @@
                 <jdbc.password>petstore</jdbc.password>
                 <timeServer.host>localhost</timeServer.host>
                 <timeServer.port>11000</timeServer.port>
-                <test.server.host>localhost</test.server.host>
-                <test.server.port>8080</test.server.port>
+                <application.host>localhost</application.host>
+                <application.port>8080</application.port>
                 <test.jdbc.url>jdbc:mysql://localhost:3306/petstore-test</test.jdbc.url>
                 <test.jdbc.password>petstore</test.jdbc.password>
                 <browser.lifecycle>lasting</browser.lifecycle>
@@ -367,8 +367,8 @@
                 <jdbc.password>petstore</jdbc.password>
                 <timeServer.host>localhost</timeServer.host>
                 <timeServer.port>11111</timeServer.port>
-                <test.server.host>localhost</test.server.host>
-                <test.server.port>8081</test.server.port>
+                <application.host>localhost</application.host>
+                <application.port>8081</application.port>
                 <test.jdbc.url>jdbc:mysql://localhost:3306/petstore-test</test.jdbc.url>
                 <test.jdbc.password>petstore</test.jdbc.password>
                 <browser.lifecycle>lasting</browser.lifecycle>
@@ -392,8 +392,8 @@
                 <jdbc.password>${bees.database.password}</jdbc.password>
                 <timeServer.host>time.nist.gov</timeServer.host>
                 <timeServer.port>13</timeServer.port>
-                <test.server.host>${sauce.host}</test.server.host>
-                <test.server.port>${sauce.port}</test.server.port>
+                <application.host>${sauce.host}</application.host>
+                <application.port>${sauce.port}</application.port>
                 <test.jdbc.url>jdbc:mysql://${bees.database.host}:3306/petstore-test</test.jdbc.url>
                 <test.jdbc.password>${bees.database.password}</test.jdbc.password>
                 <browser.lifecycle>remote</browser.lifecycle>
@@ -417,8 +417,8 @@
                 <jdbc.password>${bees.database.password}</jdbc.password>
                 <timeServer.host>time.nist.gov</timeServer.host>
                 <timeServer.port>13</timeServer.port>
-                <test.server.host>${sauce.host}</test.server.host>
-                <test.server.port>${sauce.port}</test.server.port>
+                <application.host>${sauce.host}</application.host>
+                <application.port>${sauce.port}</application.port>
                 <test.jdbc.url>jdbc:mysql://${bees.database.host}:3306/petstore-test</test.jdbc.url>
                 <test.jdbc.password>${bees.database.password}</test.jdbc.password>
                 <browser.lifecycle>remote</browser.lifecycle>

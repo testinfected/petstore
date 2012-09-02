@@ -29,11 +29,14 @@ import static java.lang.Integer.parseInt;
 public class TestEnvironment {
 
     public static final String SERVER_LIFECYCLE = "server.lifecycle";
-    public static final String SERVER_SCHEME = "server.scheme";
+    public static final String WEBAPP_PATH = "webapp.path";
+    public static final String CONTEXT_PATH = "context.path";
+
     public static final String SERVER_HOST = "server.host";
     public static final String SERVER_PORT = "server.port";
-    public static final String SERVER_CONTEXT_PATH = "server.context.path";
-    public static final String SERVER_WEBAPP_PATH = "server.webapp.path";
+
+    public static final String APPLICATION_HOST = "application.host";
+    public static final String APPLICATION_PORT = "application.port";
 
     public static final String BROWSER_LIFECYCLE = "browser.lifecycle";
     public static final String BROWSER_REMOTE_URL = "browser.remote.url";
@@ -48,7 +51,6 @@ public class TestEnvironment {
 
     private static final String TEST_PROPERTIES = "system/test.properties";
     private static TestEnvironment environment;
-    private final Properties props;
 
     public static TestEnvironment load() {
         if (environment == null) {
@@ -61,7 +63,9 @@ public class TestEnvironment {
         return new TestEnvironment(PropertyFile.load(resource));
     }
 
-    private final Routing routes;
+    private final Properties props;
+    private final Routing applicationRoutes;
+    private final Routing adminRoutes;
     private final Spring spring;
     private final ServerLifeCycle serverLifeCycle;
     private final BrowserControl browserControl;
@@ -71,7 +75,8 @@ public class TestEnvironment {
         this.spring = loadSpringContext(properties);
         this.serverLifeCycle = selectServer();
         this.browserControl = selectBrowser();
-        this.routes = new Routing(serverBaseUrl());
+        this.applicationRoutes = new Routing(applicationUrl());
+        this.adminRoutes = new Routing(adminUrl());
     }
 
     private Properties configure(Properties settings) {
@@ -90,9 +95,9 @@ public class TestEnvironment {
         final Map<String, ServerLifeCycle> available = new HashMap<String, ServerLifeCycle>();
         available.put(EXTERNAL, new ExternalServer());
         available.put(LASTING,
-                new LastingServer(asString(SERVER_HOST), asInt(SERVER_PORT), asString(SERVER_CONTEXT_PATH), asString(SERVER_WEBAPP_PATH)));
+                new LastingServer(asString(SERVER_HOST), asInt(SERVER_PORT), asString(CONTEXT_PATH), asString(WEBAPP_PATH)));
         available.put(PASSING,
-                new PassingServer(asString(SERVER_HOST), asInt(SERVER_PORT), asString(SERVER_CONTEXT_PATH), asString(SERVER_WEBAPP_PATH)));
+                new PassingServer(asString(SERVER_HOST), asInt(SERVER_PORT), asString(CONTEXT_PATH), asString(WEBAPP_PATH)));
         return available.get(asString(SERVER_LIFECYCLE));
     }
 
@@ -120,12 +125,12 @@ public class TestEnvironment {
 
     public AsyncWebDriver startBrowser() throws Exception {
         AsyncWebDriver browser = new AsyncWebDriver(new UnsynchronizedProber(), browserControl.launch());
-        browser.navigate().to(routes.toHome());
+        browser.navigate().to(applicationRoutes.toHome());
         return browser;
     }
 
-    public Routing routes() {
-        return routes;
+    public Routing adminRoutes() {
+        return adminRoutes;
     }
 
     public void wipe() {
@@ -134,8 +139,12 @@ public class TestEnvironment {
         database.close();
     }
 
-    private String serverBaseUrl() {
-        return String.format("%s://%s:%s%s", asString(SERVER_SCHEME), asString(SERVER_HOST), asString(SERVER_PORT), asString(SERVER_CONTEXT_PATH));
+    private String applicationUrl() {
+        return String.format("http://%s:%s%s", asString(APPLICATION_HOST), asString(APPLICATION_PORT), asString(CONTEXT_PATH));
+    }
+
+    private String adminUrl() {
+        return String.format("http://%s:%s%s", asString(SERVER_HOST), asString(SERVER_PORT), asString(CONTEXT_PATH));
     }
 
     public Capabilities browserCapabilities() {

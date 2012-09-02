@@ -46,7 +46,7 @@ public class ApplicationDriver {
         cartPage = new CartPage(browser);
         purchasePage = new PurchasePage(browser);
         receiptPage = new ReceiptPage(browser);
-        admin = new AdministrationDriver(environment.makeWebClient(), environment.routes());
+        admin = new AdministrationDriver(environment.makeWebClient(), environment.adminRoutes());
     }
 
     public void stop() {
