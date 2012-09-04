@@ -25,6 +25,7 @@ public class ApplicationDriver {
     }
 
     public void start() throws Exception {
+        cleanupEnvironment();
         startWebServer();
         startBrowser();
         makeDrivers();
@@ -35,7 +36,7 @@ public class ApplicationDriver {
     }
 
     private void startBrowser() throws Exception {
-        this.browser = environment.startBrowser();
+        this.browser = environment.launchBrowser();
     }
 
     private void makeDrivers() {
@@ -53,7 +54,6 @@ public class ApplicationDriver {
         logout();
         stopServer();
         stopBrowser();
-        cleanupEnvironment();
     }
 
     private void cleanupEnvironment() {

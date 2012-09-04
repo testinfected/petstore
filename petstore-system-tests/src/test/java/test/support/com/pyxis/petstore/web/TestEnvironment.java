@@ -15,7 +15,6 @@ import test.support.com.pyxis.petstore.web.browser.PassingBrowser;
 import test.support.com.pyxis.petstore.web.browser.RemoteBrowser;
 import test.support.com.pyxis.petstore.web.server.ExternalServer;
 import test.support.com.pyxis.petstore.web.server.LastingServer;
-import test.support.com.pyxis.petstore.web.server.PassingServer;
 import test.support.com.pyxis.petstore.web.server.ServerLifeCycle;
 
 import java.net.MalformedURLException;
@@ -94,10 +93,7 @@ public class TestEnvironment {
     private ServerLifeCycle selectServer() {
         final Map<String, ServerLifeCycle> available = new HashMap<String, ServerLifeCycle>();
         available.put(EXTERNAL, new ExternalServer());
-        available.put(LASTING,
-                new LastingServer(asString(SERVER_HOST), asInt(SERVER_PORT), asString(CONTEXT_PATH), asString(WEBAPP_PATH)));
-        available.put(PASSING,
-                new PassingServer(asString(SERVER_HOST), asInt(SERVER_PORT), asString(CONTEXT_PATH), asString(WEBAPP_PATH)));
+        available.put(LASTING, new LastingServer(asString(SERVER_HOST), asInt(SERVER_PORT), asString(CONTEXT_PATH), asString(WEBAPP_PATH)));
         return available.get(asString(SERVER_LIFECYCLE));
     }
 
@@ -123,7 +119,7 @@ public class TestEnvironment {
         serverLifeCycle.stop();
     }
 
-    public AsyncWebDriver startBrowser() throws Exception {
+    public AsyncWebDriver launchBrowser() throws Exception {
         AsyncWebDriver browser = new AsyncWebDriver(new UnsynchronizedProber(), browserControl.launch());
         browser.navigate().to(applicationRoutes.toHome());
         return browser;
