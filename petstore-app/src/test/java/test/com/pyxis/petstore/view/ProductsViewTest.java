@@ -2,7 +2,6 @@ package test.com.pyxis.petstore.view;
 
 import com.pyxis.petstore.domain.product.AttachmentStorage;
 import com.pyxis.petstore.domain.product.Product;
-import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -19,7 +18,6 @@ import test.support.com.pyxis.petstore.views.VelocityRendering;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.everyItem;
-import static org.hamcrest.Matchers.nullValue;
 import static org.testinfected.hamcrest.dom.DomMatchers.hasAttribute;
 import static org.testinfected.hamcrest.dom.DomMatchers.hasBlankText;
 import static org.testinfected.hamcrest.dom.DomMatchers.hasChild;
@@ -33,7 +31,7 @@ import static test.support.com.pyxis.petstore.views.VelocityRendering.render;
 
 @RunWith(JMock.class)
 public class ProductsViewTest {
-    Routes routes = Routes.toPetstore();
+    Routes routes = Routes.to("/petstore");
     String PRODUCTS_VIEW_TEMPLATE = "products";
     Object DEFAULT_PHOTO_URL = "url/of/" + Product.MISSING_PHOTO;
     String keyword = "Iguana";
@@ -57,13 +55,13 @@ public class ProductsViewTest {
     }
 
     @Test public void
-    displaysAllProductsFound() {
+    displaysAllProductsFound() throws Exception {
         productsView = renderProductsView().using(model.listing(aProduct(), aProduct())).asDom();
         assertThat("view", productsView, hasUniqueSelector("#match-count", hasText("2")));
         assertThat("view", productsView, hasSelector("#catalog li[id^='product']", hasSize(2)));
     }
 
-    @Test public void
+    @SuppressWarnings("unchecked") @Test public void
     displaysProductDetails() throws Exception {
         model.listing(aProduct().
                 withNumber("LAB-1234").
@@ -84,34 +82,26 @@ public class ProductsViewTest {
                 hasSelector(".product-description", hasText("Friendly")));
     }
 
-    @Test public void
-    handlesProductWithNoDescription() {
+    @SuppressWarnings("unchecked") @Test public void
+    handlesProductWithNoDescription() throws Exception {
         productsView = renderProductsView().using(model.listing(aProduct().withNoDescription())).asDom();
         assertThat("view", productsView,
                 hasSelector(".product-description", hasBlankText()));
     }
 
     @Test public void
-    doesNotDisplayProductListWhenNoProductIsFound() {
+    doesNotDisplayProductListWhenNoProductIsFound() throws Exception {
         productsView = renderProductsView().using(model).asDom();
         assertThat("view", productsView, hasUniqueSelector("#no-match"));
         assertThat("view", productsView, hasNoSelector("#catalog li"));
     }
 
     @Test public void
-    productNameAndPhotoLinkToProductInventory() {
+    productNameAndPhotoLinkToProductInventory() throws Exception {
         productsView = renderProductsView().using(model.listing(aProduct().named("Labrador").withNumber("LAB-1234"))).asDom();
         assertThat("view", productsView,
                 hasSelector("li a", everyItem(
                         hasAttribute("href", equalTo(routes.itemsPath("LAB-1234"))))));
-    }
-
-    private Matcher<Product> aProductWithPhoto(Matcher<? super String> photoMatcher) {
-        return new FeatureMatcher<Product, String>(photoMatcher, "a product with photo filename", "photo filename") {
-            @Override protected String featureValueOf(Product actual) {
-                return actual.getPhotoFileName();
-            }
-        };
     }
 
     private Matcher<Element> hasImage(String imageUrl) {

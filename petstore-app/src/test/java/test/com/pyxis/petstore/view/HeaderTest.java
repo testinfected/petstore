@@ -29,7 +29,7 @@ public class HeaderTest {
     Element header;
 
     @Test public void
-    linkToCartIsInactiveWhenCartIsEmpty() {
+    linkToCartIsInactiveWhenCartIsEmpty() throws Exception {
         header = renderHeader().using(aModel().with(aCart())).asDom();
         assertThat("header", header, hasNoSelector("#shopping-cart a"));
         assertThat("header", header, hasText(containsString("0")));
@@ -45,19 +45,19 @@ public class HeaderTest {
     }
 
     @Test public void
-    linkToHomeReturnsToToHomePage() {
+    linkToHomeReturnsToToHomePage() throws Exception {
         header = renderHeader().asDom();
         assertThat("header", header, hasUniqueSelector("#home a", hasAttribute("href", routes.homePath())));
     }
 
     @Test public void
-    logoLinksToHomePage() {
+    logoLinksToHomePage() throws Exception {
         header = renderHeader().asDom();
         assertThat("content", header, hasUniqueSelector("#logo a", hasAttribute("href", routes.homePath())));
     }
 
     @SuppressWarnings("unchecked") @Test public void
-    containsASearchBoxToQueryTheProductCatalog() {
+    containsASearchBoxToQueryTheProductCatalog() throws Exception {
         header = renderHeader().asDom();
         assertThat("header", header,
                 hasUniqueSelector("#search-box form",

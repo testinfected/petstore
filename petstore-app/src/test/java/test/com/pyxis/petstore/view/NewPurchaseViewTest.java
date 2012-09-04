@@ -37,13 +37,13 @@ import static test.support.com.pyxis.petstore.views.VelocityRendering.render;
 @SuppressWarnings("unchecked")
 public class NewPurchaseViewTest {
 
-    Routes routes = Routes.toPetstore();
+    Routes routes = Routes.to("/petstore");
     String NEW_PURCHASE_VIEW_TEMPLATE = "purchases/new";
     Element newPurchaseView;
     ModelBuilder model;
 
     @Before public void
-    renderView() {
+    renderView() throws Exception {
         model = aModel().
                 with(aCart().containing(anItem().priced("100.00"))).
                 and("cardTypes", CreditCardType.options());
@@ -72,7 +72,7 @@ public class NewPurchaseViewTest {
     }
 
     @Test public void
-    rendersErrorsWhenPaymentDetailsAreInvalid() {
+    rendersErrorsWhenPaymentDetailsAreInvalid() throws Exception {
         MockErrors errors = errorsOn("paymentDetails");
         errors.reject("invalid");
         errors.rejectValue("cardNumber", "empty");
@@ -87,7 +87,7 @@ public class NewPurchaseViewTest {
     }
 
     @Test public void
-    restoresFormValuesWhenAValidationErrorOccurs() {
+    restoresFormValuesWhenAValidationErrorOccurs() throws Exception {
         AddressBuilder billingAddress = anAddress().
                 withName("Jack", "Johnson").withEmail("jack@gmail.com");
         CreditCardDetails creditCardDetails = aMasterCard().

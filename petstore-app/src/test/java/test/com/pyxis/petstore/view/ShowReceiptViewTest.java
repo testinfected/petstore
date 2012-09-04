@@ -28,14 +28,14 @@ import static test.support.com.pyxis.petstore.views.VelocityRendering.render;
 
 public class ShowReceiptViewTest {
 
-    Routes routes = Routes.toPetstore();
+    Routes routes = Routes.to("/petstore");
     String SHOW_RECEIPT_VIEW_TEMPLATE = "receipts/show";
     Element showReceiptView;
     ModelBuilder model;
     String orderTotal = "458.97";
 
     @Before public void
-    renderView() {
+    renderView() throws Exception {
         Item anItemOrderedSeveralTimes = anItem().
                 withNumber("12345678").
                 describedAs("Green Adult").

@@ -23,13 +23,13 @@ import static test.support.com.pyxis.petstore.views.VelocityRendering.render;
 
 public class CartViewTest {
 
-    Routes routes = Routes.toPetstore();
+    Routes routes = Routes.to("/petstore");
     String CART_VIEW_TEMPLATE = "cart";
     Element cartView;
 
     @SuppressWarnings("unchecked")
     @Test public void
-    displaysColumnHeadings() {
+    displaysColumnHeadings() throws Exception {
         cartView = renderCartView().using(aModel().with(aCart())).asDom();
         assertThat("view", cartView,
                 hasSelector("#cart-content th",
@@ -55,7 +55,7 @@ public class CartViewTest {
     }
 
     @Test public void
-    displaysOneCartItemPerLine() {
+    displaysOneCartItemPerLine() throws Exception {
         ItemBuilder anItem = anItem();
         ItemBuilder anotherItem = anItem();
         cartView = renderCartView().using(aModel().with(aCart().containing(anItem, anItem, anotherItem))).asDom();
@@ -63,7 +63,7 @@ public class CartViewTest {
     }
 
     @Test public void
-    displaysCartGrandTotal() {
+    displaysCartGrandTotal() throws Exception {
         cartView = renderCartView().using(aModel().with(aCart().containing(
                 anItem().priced("20.00"),
                 anItem().priced("12.99"),
@@ -74,13 +74,13 @@ public class CartViewTest {
     }
 
     @Test public void
-    returnsToHomePageToContinueShopping() {
+    returnsToHomePageToContinueShopping() throws Exception {
         cartView = renderCartView().using(aModel().with(aCart().containing(anItem()))).asDom();
         assertThat("view", cartView, hasUniqueSelector("a#continue-shopping", hasAttribute("href", routes.homePath())));
     }
 
     @Test public void
-    checkingOutRendersPaymentForm() {
+    checkingOutRendersPaymentForm() throws Exception {
         cartView = renderCartView().using(aModel().with(aCart().containing(anItem()))).asDom();
         assertThat("view", cartView, hasUniqueSelector("#checkout a", hasAttribute("href", routes.checkoutPath())));
     }

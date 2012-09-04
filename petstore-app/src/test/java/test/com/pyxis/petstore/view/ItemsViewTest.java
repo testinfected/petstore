@@ -24,19 +24,19 @@ import static test.support.com.pyxis.petstore.views.VelocityRendering.render;
 
 public class ItemsViewTest {
 
-    Routes routes = Routes.toPetstore();
+    Routes routes = Routes.to("/petstore");
     String ITEMS_VIEW_TEMPLATE = "items";
     Element itemsView;
 
     @Test public void
-    indicatesWhenInventoryIsEmpty() {
+    indicatesWhenInventoryIsEmpty() throws Exception {
         itemsView = renderItemsView().using(anEmptyModel()).asDom();
         assertThat("view", itemsView, hasUniqueSelector("#out-of-stock"));
         assertThat("view", itemsView, hasNoSelector("#inventory"));
     }
 
     @Test public void
-    displaysNumberOfItemsAvailable() {
+    displaysNumberOfItemsAvailable() throws Exception {
         itemsView = renderItemsView().using(aModel().listing(anItem(), anItem())).asDom();
         assertThat("view", itemsView, hasUniqueSelector("#inventory-count", hasText("2")));
         assertThat("view", itemsView, hasSelector("#inventory tr[id^='item']", hasSize(2)));
@@ -44,7 +44,7 @@ public class ItemsViewTest {
 
     @SuppressWarnings("unchecked")
     @Test public void
-    displaysColumnHeadingsOnItemsTable() {
+    displaysColumnHeadingsOnItemsTable() throws Exception {
         itemsView = renderItemsView().using(aModel().listing(anItem())).asDom();
         assertThat("view", itemsView,
                 hasSelector("#items th",
@@ -71,7 +71,7 @@ public class ItemsViewTest {
 
     @SuppressWarnings("unchecked")
     @Test public void
-    addToCartButtonAddsItemToShoppingCart() {
+    addToCartButtonAddsItemToShoppingCart() throws Exception {
         itemsView = renderItemsView().using(aModel().listing(anItem().withNumber("12345678"))).asDom();
         assertThat("view", itemsView,
                 hasUniqueSelector("form",
@@ -85,7 +85,7 @@ public class ItemsViewTest {
     }
 
     @Test public void
-    returnsToHomePageToContinueShopping() {
+    returnsToHomePageToContinueShopping() throws Exception {
         itemsView = renderItemsView().asDom();
         assertThat("view", itemsView, hasUniqueSelector("a#continue-shopping", hasAttribute("href", routes.homePath())));
     }

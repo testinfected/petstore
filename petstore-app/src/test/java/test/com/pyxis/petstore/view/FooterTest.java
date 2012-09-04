@@ -21,7 +21,7 @@ public class FooterTest {
     Element footer;
 
     @Before public void
-    renderFooter() {
+    renderFooter() throws Exception {
         footer = render(FOOTER_PARTIAL).using(routes).asDom();
     }
 
