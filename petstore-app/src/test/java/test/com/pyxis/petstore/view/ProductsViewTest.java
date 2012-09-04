@@ -70,7 +70,7 @@ public class ProductsViewTest {
                 named("Labrador").
                 describedAs("Friendly").
                 withPhoto("labrador.png"));
-        final String photoUrl = "path/to/attachment/labrador.png";
+        final String photoUrl = "/path/to/attachment/labrador.png";
         context.checking(new Expectations() {{
             allowing(attachmentStorage).getLocation(with("labrador.png")); will(returnValue(photoUrl));
         }});

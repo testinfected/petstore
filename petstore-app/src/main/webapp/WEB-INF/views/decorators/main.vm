@@ -12,18 +12,7 @@
 <div id="wrapper">
 
 <div id="header">
-    <div class="content">
-        <div id="logo">
-            #parse("_logo.vm")
-        </div>
-
-        <div id="search-box">
-            #parse("_search.vm")
-        </div>
-        <div id="menu">
-            #parse("_menu.vm")
-        </div>
-    </div>
+#parse("_header.vm")
 </div>
 
 <div class="content">
@@ -34,12 +23,7 @@
 </div>
 
 <div id="footer">
-    <hr/>
-	<div id="logout-box">
-    	#parse("_logout.vm")
-	</div>
-    <a href="http://www.pyxis-tech.com/en/home"><img src="$base/images/pyxis.png"/></a>
-    <span>jPetStore &copy; 2010 - PSD @</span>
+#parse("_footer.vm")
 </div>
 
 </body>

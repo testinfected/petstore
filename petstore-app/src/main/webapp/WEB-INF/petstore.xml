@@ -62,7 +62,7 @@
     </bean>
 
     <bean class="com.pyxis.petstore.util.FileSystemPhotoStore">
-        <constructor-arg value="attachments/products"/>
+        <constructor-arg value="/attachments/products"/>
     </bean>
 
     <context:component-scan base-package="com.pyxis.petstore.domain"/>

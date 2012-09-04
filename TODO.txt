@@ -1,5 +1,4 @@
 o Rename infra to persistence
-o Have header and footer templates instead of fragments
 o Replace Velocity with StringTemplate or Mustache
 o Fix layout of header
 o Use wildcard matchers in windowlicker to get rid of being() sugar ?

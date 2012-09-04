@@ -1,0 +1,37 @@
+<div class="content">
+    <div id="logo">
+      <a href="$base/">
+           <img src="$base/images/logo.png"/>
+      </a>
+    </div>
+
+    <div id="search-box">
+      <form action="$base/products" method="get">
+          <input id="keyword" name="keyword" type="text" size="20"/>
+          <button id="search">
+              <img src="$base/images/magnifier.png"/>
+          </button>
+      </form>
+    </div>
+
+    <div id="menu">
+      <ul>
+          #set ($section = $page.getProperty("meta.section"))
+          <li id="home" #if (!$section) class="overline" #end>
+          <a href="$base/">Home</a></li>
+
+          ##  Spring aop proxy prefix bean names with scopedTarget
+          #set( $cart = $session.getAttribute('scopedTarget.cart') )
+          <li id="shopping-cart" #if($section == 'cart') class="overline" #end>
+              #if ($cart && !$cart.empty)
+              <a href="$base/cart" id="view_cart">Cart ($cart.totalQuantity)</a>
+              #else
+                  Cart (0)
+              #end
+          </li>
+      </ul>
+      <div #if(!$section) id="home-tab" #else id="cart-tab" #end>
+          <img src="$base/images/tab.png"/>
+      </div>
+    </div>
+</div>

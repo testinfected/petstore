@@ -16,7 +16,7 @@
         #foreach ($product in $productList)
             <li id="product-$product.number">
                 <a class="product-link" href="$base/products/$product.number/items">
-                    <img src="$base/$product.getPhotoLocation($attachments)"/></a>
+                    <img src="$base$product.getPhotoLocation($attachments)"/></a>
 
                 <div class='product-details'>
                     <a href="$base/products/$product.number/items"><span class="product-name">$product.name</span></a>

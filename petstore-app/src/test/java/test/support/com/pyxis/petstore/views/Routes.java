@@ -4,11 +4,15 @@ public final class Routes {
 
     private static final String PETSTORE_CONTEXT_PATH = "/petstore";
 
-    private final String contextPath;
-
     public static Routes toPetstore() {
-        return new Routes(PETSTORE_CONTEXT_PATH);
+        return to(PETSTORE_CONTEXT_PATH);
     }
+
+    public static Routes to(String contextPath) {
+        return new Routes(contextPath);
+    }
+
+    private final String contextPath;
 
     public Routes(String contextPath) {
         this.contextPath = contextPath;
@@ -19,30 +23,38 @@ public final class Routes {
     }
 
     public String pathFor(String relativePath) {
-        return contextPath + "/" + relativePath;
+        return contextPath + relativePath;
     }
 
     public String homePath() {
-        return pathFor("");
+        return pathFor("/");
     }
 
     public String itemsPath(String productNumber) {
-        return pathFor("products/" + productNumber + "/items");
+        return pathFor("/products/" + productNumber + "/items");
     }
 
     public String cartItemsPath() {
-        return pathFor("cartitems");
+        return pathFor("/cartitems");
     }
 
     public String cartPath() {
-        return pathFor("cart");
+        return pathFor("/cart");
     }
 
     public String checkoutPath() {
-        return pathFor("checkout");
+        return pathFor("/checkout");
     }
 
     public String purchasesPath() {
-        return pathFor("purchases");
+        return pathFor("/purchases");
+    }
+
+    public String logoutPath() {
+        return pathFor("/logout");
+    }
+
+    public String productsPath() {
+        return pathFor("/products");
     }
 }

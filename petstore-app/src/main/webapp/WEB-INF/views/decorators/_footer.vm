@@ -1,0 +1,8 @@
+<hr/>
+<div id="logout-box">
+  <form action="$base/logout" method="post">
+      <input type="hidden" name="_method" value="delete"/>
+      <button id="logout"></button>
+  </form></div>
+<a href="http://www.pyxis-tech.com/en/home"><img src="$base/images/pyxis.png"/></a>
+<span>jPetStore &copy; 2010 - PSD @</span>

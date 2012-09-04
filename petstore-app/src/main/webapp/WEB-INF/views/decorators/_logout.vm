@@ -1,4 +1,0 @@
-<form action="$base/logout" method="post">
-    <input type="hidden" name="_method" value="delete"/>
-	<button id="logout"></button>
-</form>
