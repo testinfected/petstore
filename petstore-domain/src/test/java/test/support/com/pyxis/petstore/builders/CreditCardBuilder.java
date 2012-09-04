@@ -28,7 +28,7 @@ public class CreditCardBuilder implements Builder<CreditCardDetails> {
 
     public static CreditCardBuilder validVisaDetails() {
         return aVisa().
-                withNumber("9999 9999 9999").
+                withNumber("4111111111111111").
                 withExpiryDate("12/12").
                 billedTo(aValidAddress());
     }

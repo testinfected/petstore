@@ -17,12 +17,12 @@ public class PurchaseFeature {
         application.checkout();
         application.showsTotalToPay("1248.00");
 
-        application.pay("John", "Leclair", "jleclair@gmail.com", "Visa", "9999 9999 9999 9999", "12/12");
+        application.pay("John", "Doe", "jdoe@gmail.com", "Visa", "4111111111111111", "12/12");
         application.showsTotalPaid("1248.00");
         application.showsLineItem("11111111", "Male Adult", "599.00");
         application.showsLineItem("22222222", "Female Adult", "649.00");
-        application.showsBillingInformation("John", "Leclair", "jleclair@gmail.com");
-        application.showsCreditCardDetails("Visa", "9999 9999 9999 9999", "12/12");
+        application.showsBillingInformation("John", "Doe", "jdoe@gmail.com");
+        application.showsCreditCardDetails("Visa", "4111111111111111", "12/12");
 
         application.continueShopping();
         application.showsCartIsEmpty();
