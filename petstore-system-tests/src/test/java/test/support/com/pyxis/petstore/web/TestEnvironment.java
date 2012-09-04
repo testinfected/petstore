@@ -91,18 +91,19 @@ public class TestEnvironment {
     }
 
     private ServerLifeCycle selectServer() {
-        final Map<String, ServerLifeCycle> available = new HashMap<String, ServerLifeCycle>();
-        available.put(EXTERNAL, new ExternalServer());
-        available.put(LASTING, new LastingServer(asString(SERVER_HOST), asInt(SERVER_PORT), asString(CONTEXT_PATH), asString(WEBAPP_PATH)));
-        return available.get(asString(SERVER_LIFECYCLE));
+        final String lifeCycle = asString(SERVER_LIFECYCLE);
+        if (EXTERNAL.equals(lifeCycle)) return new ExternalServer();
+        if (LASTING.equals(lifeCycle))
+            return new LastingServer(asString(SERVER_HOST), asInt(SERVER_PORT), asString(CONTEXT_PATH), asString(WEBAPP_PATH));
+        throw new IllegalArgumentException(SERVER_LIFECYCLE + " should be one of external or lasting: " + lifeCycle);
     }
 
     private BrowserControl selectBrowser() {
-        final Map<String, BrowserControl> available = new HashMap<String, BrowserControl>();
-        available.put(PASSING, new PassingBrowser());
-        available.put(LASTING, new LastingBrowser());
-        available.put(REMOTE, new RemoteBrowser(asURL(BROWSER_REMOTE_URL), browserCapabilities()));
-        return available.get(asString(BROWSER_LIFECYCLE));
+        final String lifeCycle = asString(BROWSER_LIFECYCLE);
+        if (PASSING.equals(lifeCycle)) return new PassingBrowser();
+        if (LASTING.equals(lifeCycle)) return new LastingBrowser();
+        if (REMOTE.equals(lifeCycle)) return new RemoteBrowser(asURL(BROWSER_REMOTE_URL), browserCapabilities());
+        throw new IllegalArgumentException(BROWSER_LIFECYCLE + " should be one of passing, lasting or remote: " + lifeCycle);
     }
 
     public WebClient makeWebClient() {
