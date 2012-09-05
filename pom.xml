@@ -331,7 +331,7 @@
             </activation>
             <properties>
                 <server.port>8080</server.port>
-                <context.path></context.path>
+                <context.path>/petstore</context.path>
                 <log.to>file</log.to>
                 <log.dir>${project.build.directory}/logs</log.dir>
                 <log.file>development.log</log.file>
