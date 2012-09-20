@@ -47,7 +47,7 @@ public class ProductsControllerTest {
     }
 
     @Test public void
-    retrievesProductsMatchingKeywordAndMakesThemAvailableToView() {
+    retrievesProductsMatchingKeywordAndAddsProductListToModel() {
         final Object matchingProducts = Arrays.asList(aProduct().build());
         context.checking(new Expectations() {{
             oneOf(productCatalog).findByKeyword("Dog"); will(returnValue(matchingProducts));
@@ -64,13 +64,13 @@ public class ProductsControllerTest {
     }
 
     @Test public void
-    makesStorageAvailableToView() {
+    exposesAttachmentStorage() {
         AttachmentStorage storage = productsController.getAttachmentStorage();
         assertThat("attachment storage", storage, sameInstance(attachmentStorage));
     }
     
     @Test public void
-    makesSearchKeywordAvailableToView() {
+    addsSearchKeywordToModel() {
         productsController.index(ANY_PRODUCT, model);
         assertThat("model", model, hasAttribute("keyword", ANY_PRODUCT));
     }
