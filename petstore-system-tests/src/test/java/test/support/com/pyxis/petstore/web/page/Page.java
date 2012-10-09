@@ -1,7 +1,6 @@
 package test.support.com.pyxis.petstore.web.page;
 
 import com.objogate.wl.web.AsyncWebDriver;
-import test.support.com.pyxis.petstore.web.Routing;
 
 public abstract class Page {
 
