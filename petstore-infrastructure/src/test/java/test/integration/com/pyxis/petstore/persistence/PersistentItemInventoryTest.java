@@ -20,10 +20,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import static org.testinfected.hamcrest.jpa.HasFieldWithValue.hasField;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.everyItem;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static test.support.com.pyxis.petstore.builders.ItemBuilder.anItem;
@@ -54,7 +54,7 @@ public class PersistentItemInventoryTest {
         database.given(anItem().of(product).withNumber("12345678"));
 
         Item found = itemInventory.find(new ItemNumber("12345678"));
-        assertThat("inventory", found, itemWithNumber("12345678"));
+        assertThat("item", found, hasNumber("12345678"));
     }
 
     @Test public void
@@ -64,7 +64,8 @@ public class PersistentItemInventoryTest {
         database.given(anItem().of(product), anItem().of(product));
 
         List<Item> availableItems = itemInventory.findByProductNumber("LAB-1234");
-        assertThat("available items", availableItems, everyItem(anItemOfProduct(productWithNumber("LAB-1234"))));
+        assertThat("available items", availableItems, hasSize(2));
+        assertThat("available items", availableItems, everyItem(hasProductNumber("LAB-1234")));
     }
 
     @Test public void
@@ -115,22 +116,18 @@ public class PersistentItemInventoryTest {
         }
     }
 
-    private Matcher<Item> itemWithNumber(final String number) {
-        return new FeatureMatcher<Item, String>(equalTo(number), "an item with number", "item number") {
+    private Matcher<Item> hasNumber(final String number) {
+        return new FeatureMatcher<Item, String>(equalTo(number), "has number", "number") {
             @Override protected String featureValueOf(Item actual) {
                 return actual.getNumber();
             }
         };
     }
 
-    private Matcher<Item> anItemOfProduct(Matcher<? super Product> productMatcher) {
-        return hasField("product", productMatcher);
-    }
-
-    private Matcher<Product> productWithNumber(final String number) {
-        return new FeatureMatcher<Product, String>(equalTo(number), "a product with number", "product number") {
-            @Override protected String featureValueOf(Product actual) {
-                return actual.getNumber();
+    private Matcher<Item> hasProductNumber(final String number) {
+        return new FeatureMatcher<Item, String>(equalTo(number), "has product number", "product number") {
+            @Override protected String featureValueOf(Item actual) {
+                return actual.getProductNumber();
             }
         };
     }

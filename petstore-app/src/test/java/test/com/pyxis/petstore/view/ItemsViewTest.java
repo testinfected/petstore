@@ -56,7 +56,7 @@ public class ItemsViewTest {
 
     @SuppressWarnings("unchecked")
     @Test public void
-    displaysProductDetailsInColumns() throws Exception {
+    displaysItemDetailsInColumns() throws Exception {
         itemsView = renderItemsView().using(aModel().listing(anItem().
                 withNumber("12345678").
                 describedAs("Green Adult").

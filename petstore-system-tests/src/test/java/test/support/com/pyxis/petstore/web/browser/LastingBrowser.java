@@ -29,7 +29,11 @@ public class LastingBrowser implements BrowserControl {
 
     private static class LastingWebDriver extends FirefoxDriver {
         public void shutdown() {
-            super.quit();
+            try {
+                super.quit();
+            } catch (Exception ignored) {
+                System.out.println("Browser probably already dead");
+            }
         }
 
         public void quit() {
