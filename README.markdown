@@ -2,8 +2,8 @@
 
 A sample Java application to demonstrate applying the principles and practices described in Steve Freeman and Nat Pryce book, [Growing Object Oriented Software, Guided by Tests](http://www.growing-object-oriented-software.com/).
 
-Have a look at [Simple PetStore](https://github.com/testinfected/simple-petstore), a fork of the PetStore written with simple tools
-and frameworks (Simpleframework, JDBC, Buildr, Velocity and Sitemesh).
+I recommend you have a look instead at [Simple PetStore](https://github.com/testinfected/simple-petstore), a rewrite of the PetStore with simple tools
+and frameworks (Simpleframework, JDBC, Buildr, no IoC container).
 
 This version is built on top of Spring MVC 3.0, Spring Core 3.0, Hibernate 3.5, Velocity 1.6, Sitemesh 2, Bean Validation API 1.0 and Maven 2/3. This technological stack has been chosen with the following objectives in mind:
 

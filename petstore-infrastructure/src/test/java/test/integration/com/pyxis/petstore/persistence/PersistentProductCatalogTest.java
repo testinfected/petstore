@@ -62,7 +62,7 @@ public class PersistentProductCatalogTest {
         assertThat("matching products", matchingProducts, is(empty()));
     }
 
-    private Matcher<Collection<Product>> empty() {
+    private Matcher<Collection<? extends Product>> empty() {
         return Matchers.empty();
     }
 
