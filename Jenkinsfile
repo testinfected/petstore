@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent {docker 'maven:3-alpine'}
 
     tools {
         jdk 'jdk8'
